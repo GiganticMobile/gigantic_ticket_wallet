@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gigantic_ticket_wallet/error_container.dart';
 import 'package:gigantic_ticket_wallet/loginScreen/login_screen.dart';
+import 'package:gigantic_ticket_wallet/verificationScreen/verification_result.dart';
+import 'package:gigantic_ticket_wallet/verificationScreen/verification_screen_notifier.dart';
+import 'package:go_router/go_router.dart';
 
 ///
 class VerificationScreen extends StatelessWidget {
@@ -29,7 +33,9 @@ class VerificationScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 25,),
                         textAlign: TextAlign.center,),
-                      const Text("For extra security, we've emailed you a login code.\nEnter it here.", textAlign: TextAlign.center,),
+                      const Text(
+                        "For extra security, we've emailed you a login code.\nEnter it here.",
+                        textAlign: TextAlign.center,),
                     ],);
                   } else {
                     return const SizedBox.shrink();
@@ -45,37 +51,43 @@ class VerificationScreen extends StatelessWidget {
 }
 
 ///
-class VerificationCodeInput extends StatefulWidget {
+class VerificationCodeInput extends ConsumerStatefulWidget {
   /// constructor
   const VerificationCodeInput({super.key});
 
   @override
-  State<VerificationCodeInput> createState() => _VerificationCodeInputState();
+  VerificationCodeInputState createState() => VerificationCodeInputState();
 }
 
-class _VerificationCodeInputState extends State<VerificationCodeInput> {
+///
+class VerificationCodeInputState extends ConsumerState<VerificationCodeInput> {
 
-  final verificationCodeController = TextEditingController();
-
-  bool showError = false;
-
-  final verificationTime = DateTime.now().add(const Duration(minutes: 1));
+  final _verificationCodeController = TextEditingController();
 
   @override
   void dispose() {
-    verificationCodeController.dispose();
+    _verificationCodeController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = verificationScreenNotifierProvider;
+    final verificationResultState = ref.watch(provider);
+
+    ref.listen(provider, (previous, next) {
+      if (next.value == VerificationResult.success) {
+        context.go('/Sync');
+      }
+    });
+
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8),
           child: TextField(
             autocorrect: false,
-            controller: verificationCodeController,
+            controller: _verificationCodeController,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4),),
@@ -86,10 +98,12 @@ class _VerificationCodeInputState extends State<VerificationCodeInput> {
         ),
 
         AnimatedOpacity(
-          opacity: showError ? 1.0 : 0.0,
+          opacity: verificationResultState.value?.isError ?? false ? 1.0 : 0.0,
           duration: const Duration(seconds: 3),
-          child: showError ? const ErrorContainer(
-            errorMessage: "This code don't match our records or may have expired. \nPlease try again",)
+          child: verificationResultState.value?.isError ?? false ?
+          ErrorContainer(
+              errorMessage: verificationResultState.value?.message
+                  ?? 'Unexpected error',)
               : const SizedBox.shrink(),
         ),
 
@@ -112,33 +126,14 @@ class _VerificationCodeInputState extends State<VerificationCodeInput> {
         }, child: const Text("Didn't receive your code?"),),
 
         LoginButton(width: double.maxFinite, onPress: () {
-          //final verificationCode = verificationCodeController.value.text;
+          final verificationCode = _verificationCodeController.value.text;
 
           //final email = GoRouterState.of(context).extra! as String;
 
-          if (DateTime.now().compareTo(verificationTime) >= 0) {
-            showDialog<void>(context: context, builder: (_) {
-              return const AlertDialog(
-                title: Text('Verification code expired'),
-              );
-            },);
-          } else {
-            /*VerificationScreenRepository()
-            .verify("test@gigantic.com", "999111").then((value) {
-              if (value != null) {
-                //to add an screen to the screen stack use
-                //context.push('/Welcome');
-                //to create a new stack
-                context.go('/Welcome');
-              } else {
-                setState(() {
-                  showError = true;
-                });
-              }
-            });*/
-          }
+          _verificationCodeController.clear();
 
-          verificationCodeController.clear();
+          //'999111'
+          ref.read(provider.notifier).verify('test@gigantic.com', verificationCode);
         },),
 
       ],

@@ -8,7 +8,7 @@ generated with
 flutter pub run build_runner build --delete-conflicting-outputs
 */
 
-part 'LoginScreenNotifier.g.dart';
+part 'login_screen_notifier.g.dart';
 
 ///This handles the ui state of the login screen
 @riverpod

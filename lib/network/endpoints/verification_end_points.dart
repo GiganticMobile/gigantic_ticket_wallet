@@ -1,18 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:gigantic_ticket_wallet/network/api_constants.dart';
-import 'package:gigantic_ticket_wallet/network/common/checks.dart';
+import 'package:gigantic_ticket_wallet/network/common/Checks.dart';
 
-/// this contains all the endpoints related to logging in
-class LoginEndPoints extends LoginEndPointsInterface {
-
+/// this contains all the endpoints related to verification
+class VerificationEndPoints extends VerificationEndPointsInterface {
   @override
-  Future<Response<dynamic>?> login(String email, String password) async {
+  Future<Response<dynamic>?> verify(String email, String code) async {
+    final dio = APIConstants.getInstance();
     late final Response<dynamic> response;
     try {
-      final dio = APIConstants.getInstance();
       response = await dio.post(
-          'login.php',
-          queryParameters: {'email': email, 'password': password},
+        'login.php',
+        queryParameters: {'email': email, 'auth_code': code},
       );
     } on DioException catch (e) {
 
@@ -47,9 +46,7 @@ class LoginEndPoints extends LoginEndPointsInterface {
 }
 
 ///
-abstract class LoginEndPointsInterface {
-
-  /// return login endpoint of the api
-  Future<Response<dynamic>?> login(String email, String password);
-
+abstract class VerificationEndPointsInterface {
+  /// return verify endpoint of the api
+  Future<Response<dynamic>?> verify(String email, String code);
 }

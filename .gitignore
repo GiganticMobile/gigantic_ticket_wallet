@@ -42,4 +42,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 /integration_test/test_bundle.dart
-/lib/loginScreen/LoginScreenNotifier.g.dart
+/lib/loginScreen/login_screen_notifier.g.dart
+/lib/verificationScreen/verification_screen_notifier.g.dart
