@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gigantic_ticket_wallet/syncScreen/sync_screen_notifier.dart';
+import 'package:go_router/go_router.dart';
 
 /// This screen tells the use that the app is loading
 class SyncScreen extends StatelessWidget {
@@ -23,26 +26,19 @@ class SyncScreen extends StatelessWidget {
 }
 
 /// app loading indicator
-class SyncProgressIndicator extends StatefulWidget {
+class SyncProgressIndicator extends ConsumerWidget {
   /// constructor
   const SyncProgressIndicator({super.key});
 
   @override
-  State<SyncProgressIndicator> createState() => _SyncProgressIndicatorState();
-}
-
-class _SyncProgressIndicatorState extends State<SyncProgressIndicator> {
-
-  @override
-  void initState() {
-    /*SyncScreenRepository().syncTickets().then((value) {
-      context.go('/Welcome');
-    });*/
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = syncScreenNotifierProvider;
+    ref.listen(provider, (previous, next) {
+      if (next.value ?? false == true) {
+        context.go('/Order');
+      }
+    });
+    
     return const CircularProgressIndicator();
   }
 }

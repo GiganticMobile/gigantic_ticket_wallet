@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import 'package:gigantic_ticket_wallet/accountScreen/account_screen.dart';
 import 'package:gigantic_ticket_wallet/database/login_database.dart';
 import 'package:gigantic_ticket_wallet/dependency_injection.dart';
 import 'package:gigantic_ticket_wallet/loginScreen/login_screen.dart';
+import 'package:gigantic_ticket_wallet/notificationScreen/notification_screen.dart';
+import 'package:gigantic_ticket_wallet/orderScreen/order_screen.dart';
 import 'package:gigantic_ticket_wallet/syncScreen/sync_screen.dart';
 import 'package:gigantic_ticket_wallet/verificationScreen/verification_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -56,12 +59,9 @@ final GoRouter _router = GoRouter(
           pageBuilder: (context, state) => CustomTransitionPage<void>(
             key: state.pageKey,
             child: const VerificationScreen(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            transitionsBuilder: (context, animation, secondaryAnimation, child){
               const begin = Offset(0, 1);
               const end = Offset.zero;
-              //const curve = Curves.ease;
-
-              //var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
               final tween = Tween(begin: begin, end: end);
 
@@ -78,24 +78,60 @@ final GoRouter _router = GoRouter(
             return const SignupScreen();
           },
         ),*/
-        /*GoRoute(
-          path: 'Welcome',
-          builder: (BuildContext context, GoRouterState state) {
-            return TicketScreen();
-          },
-        ),*/
-        /*GoRoute(
+        GoRoute(
+          path: 'Order',
+          pageBuilder: (context, state) => CustomTransitionPage<void>(
+            key: state.pageKey,
+            child: const OrderScreen(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child){
+              const begin = Offset(0, 1);
+              const end = Offset.zero;
+
+              final tween = Tween(begin: begin, end: end);
+
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            },
+          ),
+        ),
+        GoRoute(
           path: 'Notification',
-          builder: (BuildContext context, GoRouterState state) {
-            return const NotificationScreen();
-          },
-        ),*/
-        /*GoRoute(
+          pageBuilder: (context, state) => CustomTransitionPage<void>(
+            key: state.pageKey,
+            child: const NotificationScreen(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child){
+              const begin = Offset(-1, 0);
+              const end = Offset.zero;
+
+              final tween = Tween(begin: begin, end: end);
+
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            },
+          ),
+        ),
+        GoRoute(
           path: 'Account',
-          builder: (BuildContext context, GoRouterState state) {
-            return const AccountScreen();
-          },
-        ),*/
+          pageBuilder: (context, state) => CustomTransitionPage<void>(
+            key: state.pageKey,
+            child: const AccountScreen(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child){
+              const begin = Offset(1, 0);
+              const end = Offset.zero;
+
+              final tween = Tween(begin: begin, end: end);
+
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            },
+          ),
+        ),
         /*GoRoute(
           path: 'QRCodeScreen',
           builder: (BuildContext context, GoRouterState state) {
@@ -104,9 +140,21 @@ final GoRouter _router = GoRouter(
         ),*/
         GoRoute(
           path: 'Sync',
-          builder: (BuildContext context, GoRouterState state) {
-            return const SyncScreen();
-          },
+          pageBuilder: (context, state) => CustomTransitionPage<void>(
+            key: state.pageKey,
+            child: const SyncScreen(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child){
+              const begin = Offset(0, 1);
+              const end = Offset.zero;
+
+              final tween = Tween(begin: begin, end: end);
+
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            },
+          ),
         ),
       ],
     ),

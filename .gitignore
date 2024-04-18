@@ -44,3 +44,5 @@ app.*.map.json
 /integration_test/test_bundle.dart
 /lib/loginScreen/login_screen_notifier.g.dart
 /lib/verificationScreen/verification_screen_notifier.g.dart
+/lib/database/database.g.dart
+/lib/syncScreen/sync_screen_notifier.g.dart
