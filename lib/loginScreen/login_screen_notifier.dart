@@ -26,7 +26,7 @@ class LoginScreenNotifier extends _$LoginScreenNotifier {
     await GetIt.I.isReady<LoginScreenRepositoryInterface>();
     final repository = GetIt.I.get<LoginScreenRepositoryInterface>();
 
-    final loginResult = await repository.login('test@gigantic.com', '123654');
+    final loginResult = await repository.login(email, password);
 
     state = AsyncData(loginResult);
   }

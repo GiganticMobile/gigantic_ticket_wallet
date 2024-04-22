@@ -1,6 +1,7 @@
 import 'package:gigantic_ticket_wallet/database/login_database.dart';
 import 'package:gigantic_ticket_wallet/loginScreen/login_result.dart';
 import 'package:gigantic_ticket_wallet/network/login_api.dart';
+import 'package:gigantic_ticket_wallet/utils/connection_utils.dart';
 
 /// this handles the business logic of the login screen
 class LoginScreenRepository extends LoginScreenRepositoryInterface {
@@ -8,17 +9,24 @@ class LoginScreenRepository extends LoginScreenRepositoryInterface {
   /// constructor
   LoginScreenRepository({
     required LoginAPIInterface api,
-    required LoginDatabaseInterface database,}) {
-    _api = api;
-    _database = database;
-  }
-  late final LoginAPIInterface _api;
-  late final LoginDatabaseInterface _database;
+    required LoginDatabaseInterface database,
+    required ConnectionUtilsInterface connectionUtils,
+  }) :
+    _api = api,
+    _database = database,
+    _connectionUtils = connectionUtils;
+  final LoginAPIInterface _api;
+  final LoginDatabaseInterface _database;
+  final ConnectionUtilsInterface _connectionUtils;
 
   @override
   Future<LoginResult> login(String email, String password) async {
     if (email.isEmpty == true || password.isEmpty == true) {
       return LoginResult.emptyInput;
+    }
+
+    if (await _connectionUtils.hasInternetConnection() == false) {
+      return LoginResult.noConnectedError;
     }
 
     final result = await _api.login(email, password);

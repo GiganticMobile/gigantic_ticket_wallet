@@ -1,12 +1,14 @@
-import 'package:get_it/get_it.dart';
 import 'package:gigantic_ticket_wallet/database/database.dart';
 
 /// handles interactions on the order database
 class OrderDatabase extends OrderDatabaseInterface {
+  /// constructor
+  OrderDatabase({required AppDatabase database}) : _database = database;
+
+  final AppDatabase _database;
+
   @override
   Future<void> addOrder(OrderData order) async {
-    final database = GetIt.I.get<AppDatabase>();
-
     final inserting = OrderCompanion.insert(
         id: order.id,
         reference: order.reference,
@@ -14,14 +16,12 @@ class OrderDatabase extends OrderDatabaseInterface {
         venue: order.venue,
         startTime: order.startTime,);
 
-    await database.into(database.order).insertOnConflictUpdate(inserting);
+    await _database.into(_database.order).insertOnConflictUpdate(inserting);
   }
 
   @override
   Future<List<OrderData>> getOrders() async {
-    final database = GetIt.I.get<AppDatabase>();
-
-    final orders = await database.select(database.order).get();
+    final orders = await _database.select(_database.order).get();
 
     return orders;
   }

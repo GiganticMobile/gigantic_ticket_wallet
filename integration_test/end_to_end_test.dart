@@ -1,8 +1,8 @@
-import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol/patrol.dart';
+import 'loginScreen/login_screen_actions.dart';
+import 'main_test.dart' as app;
+import 'verificationScreen/verification_screen_actions.dart';
 
 /*To run the test
 1: install patrol_cli
@@ -19,23 +19,24 @@ patrol test --flavor gigscan -t integration_test/end_to_end_test.dart
  */
 
 void main() {
-  patrolTest(
-    'counter state is the same after going to home and switching apps',
-        ($) async {
-      // Replace later with your app's main widget
-      await $.pumpWidgetAndSettle(
-        MaterialApp(
-          home: Scaffold(
-            appBar: AppBar(title: const Text('app')),
-            backgroundColor: Colors.blue,
-          ),
-        ),
-      );
 
-      expect($('app'), findsOneWidget);
-      if (!Platform.isMacOS) {
-        await $.native.pressHome();
-      }
-    },
-  );
+  group('end to end tests', () {
+    patrolTest('End to end test',
+            ($) async {
+      app.main();
+
+      await Future<void>.delayed(const Duration(seconds: 3));
+
+      await $.pumpAndSettle();
+
+      await VerificationScreenActions.test($);
+
+      await $.pumpAndSettle();
+
+      await LoginScreenActions.test($);
+
+      await Future<void>.delayed(const Duration(seconds: 10));
+
+        });
+  });
 }

@@ -1,5 +1,5 @@
-
 import 'package:gigantic_ticket_wallet/network/model/ticket.dart';
+import 'package:gigantic_ticket_wallet/utils/date_utils.dart';
 
 /// order returned by api
 class Order {
@@ -13,16 +13,63 @@ class Order {
     required this.tickets,
   });
 
+  /// convert json to order
+  Order.fromJson(String orderId, dynamic json) {
+    try {
+      if (json case {
+      'order_ref': final String orderReference,
+      'event': final dynamic event,
+      'tickets': final Map<String, dynamic> tickets
+      }) {
+        var eventTitle = 'test';
+        var venueTitle = 'test';
+        var eventStartTime = 0;
+
+        if (event case {
+        'event_title': final String event,
+        'venue_title': final String venue,
+        'event_start_time': final String startTime,
+        }) {
+          eventTitle = event;
+          venueTitle = venue;
+          eventStartTime = int.tryParse(startTime) ?? 0;
+        }
+
+        final orderTickets = List<Ticket>.empty(growable: true);
+        for (final ticket in tickets.entries) {
+          try {
+            orderTickets.add(Ticket.fromJson(ticket.key, ticket.value));
+          } catch(_) {
+
+          }
+        }
+
+        final startTime = CommonDateUtils.getDateFromInt(eventStartTime);
+
+        id = orderId;
+        this.orderReference = orderReference;
+        this.event = eventTitle;
+        venue = venueTitle;
+        this.startTime = startTime;
+        this.tickets = orderTickets;
+      }  else {
+        throw Exception('unable to map to json');
+      }
+    } catch (_) {
+      throw Exception('unable to map to json');
+    }
+  }
+
   ///
-  final String id;
+  late final String id;
   ///
-  final String orderReference;
+  late final String orderReference;
   ///
-  final String event;
+  late final String event;
   ///
-  final String venue;
+  late final String venue;
   /// event start time
-  final DateTime startTime;
+  late final DateTime startTime;
   /// tickets that are linked to this order
-  List<Ticket> tickets;
+  late final List<Ticket> tickets;
 }

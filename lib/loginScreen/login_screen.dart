@@ -90,6 +90,7 @@ class LoginInputState extends ConsumerState<LoginInput> {
               Padding(
                 padding: const EdgeInsets.all(4),
                 child: TextField(
+                  key: const Key('userNameKey'),
                   autocorrect: false,
                   controller: _usernameController,
                   decoration: InputDecoration(
@@ -176,6 +177,7 @@ class LoginButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: FilledButton(
+        key: const Key('loginButtonKey'),
         onPressed: _onPress.call,
         style: FilledButton.styleFrom(
           fixedSize: Size(_width, 50),
@@ -245,6 +247,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      key: const Key('passwordKey'),
       obscureText: _canViewPassword,
       enableSuggestions: false,
       autocorrect: false,

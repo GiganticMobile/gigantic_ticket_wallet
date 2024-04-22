@@ -1,12 +1,14 @@
-import 'package:get_it/get_it.dart';
 import 'package:gigantic_ticket_wallet/database/database.dart';
 
 ///handles interactions with the tickets in the database
 class TicketDatabase extends TicketDatabaseInterface {
+  /// constructor
+  TicketDatabase({required AppDatabase database}) : _database = database;
+
+  final AppDatabase _database;
+
   @override
   Future<void> addTicket(TicketData ticket) async {
-    final database = GetIt.I.get<AppDatabase>();
-
     final inserting = TicketCompanion.insert(
       id: ticket.id,
       order: ticket.order,
@@ -15,14 +17,12 @@ class TicketDatabase extends TicketDatabaseInterface {
       label: ticket.label,
       value: ticket.value,);
 
-    await database.into(database.ticket).insertOnConflictUpdate(inserting);
+    await _database.into(_database.ticket).insertOnConflictUpdate(inserting);
   }
 
   @override
   Future<List<TicketData>> getTickets() async {
-    final database = GetIt.I.get<AppDatabase>();
-
-    final tickets = await database.select(database.ticket).get();
+    final tickets = await _database.select(_database.ticket).get();
 
     return tickets;
   }

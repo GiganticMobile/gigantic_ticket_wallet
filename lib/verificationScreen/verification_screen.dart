@@ -86,6 +86,7 @@ class VerificationCodeInputState extends ConsumerState<VerificationCodeInput> {
         Padding(
           padding: const EdgeInsets.all(8),
           child: TextField(
+            key: const Key('verificationCodeKey'),
             autocorrect: false,
             controller: _verificationCodeController,
             decoration: InputDecoration(

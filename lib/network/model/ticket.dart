@@ -9,14 +9,38 @@ class Ticket {
     required this.value,
   });
 
+  ///convert json to ticket
+  Ticket.fromJson(String ticketId, dynamic json) {
+    try {
+      if (json case {
+      'barcode': final String barcode,
+      'heading': final String heading,
+      'label': final String label,
+      'face_value': final String value,
+      }) {
+        //final startTime = DateTime.now().add(const Duration(minutes: 2))
+
+        id = ticketId;
+        this.barcode = barcode;
+        this.heading = heading;
+        this.label = label;
+        this.value = double.tryParse(value) ?? 0;
+      } else {
+        throw Exception('unable to map to json');
+      }
+    } catch (_) {
+      throw Exception('unable to map to json');
+    }
+  }
+
   ///
-  final String id;
+  late final String id;
   ///
-  final String barcode;
+  late final String barcode;
   ///
-  final String heading;
+  late final String heading;
   ///
-  final String label;
+  late final String label;
   /// ticket price
-  final double value;
+  late final double value;
 }

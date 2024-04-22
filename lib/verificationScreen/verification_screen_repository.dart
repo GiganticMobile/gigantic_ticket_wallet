@@ -1,5 +1,6 @@
 import 'package:gigantic_ticket_wallet/database/login_database.dart';
 import 'package:gigantic_ticket_wallet/network/verification_api.dart';
+import 'package:gigantic_ticket_wallet/utils/connection_utils.dart';
 import 'package:gigantic_ticket_wallet/verificationScreen/verification_result.dart';
 
 ///handles business logic for verification screen
@@ -9,19 +10,26 @@ class VerificationScreenRepository
   /// constructor
   VerificationScreenRepository({
     required VerificationAPIInterface api,
-    required LoginDatabaseInterface database,}) {
-    _api = api;
-    _database = database;
-  }
+    required LoginDatabaseInterface database,
+    required ConnectionUtilsInterface connectionUtils,
+  }) :
+    _api = api,
+    _database = database,
+    _connectionUtils = connectionUtils;
 
-  late final VerificationAPIInterface _api;
-  late final LoginDatabaseInterface _database;
+  final VerificationAPIInterface _api;
+  final LoginDatabaseInterface _database;
+  final ConnectionUtilsInterface _connectionUtils;
 
   @override
   Future<VerificationResult> verify(String email, String code) async {
 
     if (email.isEmpty || code.isEmpty) {
       return VerificationResult.emptyInput;
+    }
+
+    if (await _connectionUtils.hasInternetConnection() == false) {
+      return VerificationResult.noConnectedError;
     }
 
     /*
