@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:gigantic_ticket_wallet/accountScreen/account_screen_repository.dart';
+import 'package:gigantic_ticket_wallet/database/account_database.dart';
 import 'package:gigantic_ticket_wallet/database/database.dart';
 import 'package:gigantic_ticket_wallet/database/login_database.dart';
 import 'package:gigantic_ticket_wallet/database/order_database.dart';
@@ -29,6 +31,15 @@ void setupDependencyInjection() {
 
     return LoginDatabase(prefs: sharedPreferences);
   });
+
+  GetIt.I.registerLazySingletonAsync<AccountDatabaseInterface>(() async {
+    await GetIt.I.isReady<SharedPreferences>();
+
+    final sharedPreferences = GetIt.I.get<SharedPreferences>();
+
+    return AccountDatabase(prefs: sharedPreferences);
+  });
+
   GetIt.I.registerLazySingleton<AppDatabase>(AppDatabase.createDatabase);
   GetIt.I.registerLazySingleton<OrderDatabaseInterface>(() {
     final database = GetIt.I.get<AppDatabase>();
@@ -63,6 +74,18 @@ void setupDependencyInjection() {
   });
 
   //app repositories
+  GetIt.I.registerLazySingletonAsync<AccountScreenRepositoryInterface>(() async {
+    await GetIt.I.isReady<LoginDatabaseInterface>();
+    final loginDatabase = GetIt.I.get<LoginDatabaseInterface>();
+
+    await GetIt.I.isReady<AccountDatabaseInterface>();
+    final database = GetIt.I.get<AccountDatabaseInterface>();
+
+    return AccountScreenRepository(
+        loginDatabase: loginDatabase,
+        database: database,);
+  });
+
   GetIt.I.registerLazySingletonAsync<LoginScreenRepositoryInterface>(() async {
 
     final api = GetIt.I.get<LoginAPIInterface>();

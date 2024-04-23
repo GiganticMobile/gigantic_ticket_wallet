@@ -62,4 +62,24 @@ void main() {
 
     expect(result, false, reason: 'unexpected already logged in value');
   });
+
+  test('log user out test', () async {
+    /*
+    This checks if the user can be logged out successfully.
+     */
+
+    final database = LoginDatabase(prefs: prefs);
+
+    await database.setLoggedInTime();
+
+    //it is assumed that at this point the user has successfully
+    //logged in.
+    await database.logout();
+
+    //at this point the user should be logged out
+    //so already logged in should be false.
+    final result = await database.isAlreadyLoggedIn();
+
+    expect(result, false, reason: 'unexpected already logged n value');
+  });
 }

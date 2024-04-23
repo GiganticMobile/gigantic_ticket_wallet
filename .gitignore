@@ -46,3 +46,4 @@ app.*.map.json
 /lib/verificationScreen/verification_screen_notifier.g.dart
 /lib/database/database.g.dart
 /lib/syncScreen/sync_screen_notifier.g.dart
+/lib/accountScreen/account_screen_notifier.g.dart

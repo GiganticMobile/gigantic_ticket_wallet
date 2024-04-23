@@ -22,9 +22,8 @@ test('Can Create Preferences', () async{
 class LoginDatabase extends LoginDatabaseInterface {
 
   /// constructor
-  LoginDatabase({required SharedPreferences prefs}) {
+  LoginDatabase({required SharedPreferences prefs}) :
     _prefs = prefs;
-  }
 
   /*
   static Future<LoginDatabase> create() async {
@@ -35,7 +34,7 @@ class LoginDatabase extends LoginDatabaseInterface {
     return LoginDatabase(prefs: sharedPreferences);
   }*/
 
-  late final SharedPreferences _prefs;
+  final SharedPreferences _prefs;
 
   final _loginDateKey = 'loginDateKey';
 
@@ -77,6 +76,11 @@ class LoginDatabase extends LoginDatabaseInterface {
 
     await _prefs.setInt(_loginDateKey, currentTime);
   }
+
+  @override
+  Future<void> logout() async {
+    await _prefs.remove(_loginDateKey);
+  }
 }
 
 ///
@@ -87,4 +91,7 @@ abstract class LoginDatabaseInterface {
 
   /// set login time
   Future<void> setLoggedInTime();
+
+  /// log user out
+  Future<void> logout();
 }
