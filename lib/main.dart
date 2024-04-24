@@ -9,6 +9,7 @@ import 'package:gigantic_ticket_wallet/notificationScreen/notification_screen.da
 import 'package:gigantic_ticket_wallet/orderScreen/order_screen.dart';
 import 'package:gigantic_ticket_wallet/syncScreen/sync_screen.dart';
 import 'package:gigantic_ticket_wallet/verificationScreen/verification_screen.dart';
+import 'package:gigantic_ticket_wallet/viewOrderScreen/view_order_screen.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
@@ -83,6 +84,24 @@ final GoRouter _router = GoRouter(
           pageBuilder: (context, state) => CustomTransitionPage<void>(
             key: state.pageKey,
             child: const OrderScreen(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child){
+              const begin = Offset(0, 1);
+              const end = Offset.zero;
+
+              final tween = Tween(begin: begin, end: end);
+
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            },
+          ),
+        ),
+        GoRoute(
+          path: 'ViewOrder',
+          pageBuilder: (context, state) => CustomTransitionPage<void>(
+            key: state.pageKey,
+            child: const ViewOrderScreen(),
             transitionsBuilder: (context, animation, secondaryAnimation, child){
               const begin = Offset(0, 1);
               const end = Offset.zero;

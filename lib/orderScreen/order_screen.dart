@@ -84,22 +84,6 @@ class OrderListItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 200,
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: Colors.cyanAccent,
-              borderRadius: BorderRadius.circular(4),),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8, bottom: 8),
-            child: Text(_order.eventName,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,),),
-          ),
-          Text(_order.venueLocation),
-          Text(_order.eventStartDate),
           Padding(
             padding: const EdgeInsets.only(top: 8, bottom: 8),
             child: Row(
@@ -119,6 +103,25 @@ class OrderListItem extends StatelessWidget {
                   ],),
               ],),
           ),
+          Container(
+            height: 200,
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              color: Colors.cyanAccent,
+              borderRadius: BorderRadius.circular(4),),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8, bottom: 8),
+            child: Text(_order.eventName,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,),),
+          ),
+          Text(_order.venueLocation),
+          Text(_order.eventStartDate),
+          FilledButton(onPressed: () {
+            context.push('/ViewOrder');
+          }, child: const Text('VIEW ORDER'),),
         ],),
     );
   }
