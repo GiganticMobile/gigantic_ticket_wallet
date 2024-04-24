@@ -12,17 +12,17 @@ class CommonDateUtils {
   /// Converts DateTime to day of the week string
   static String convertDateTimeToDay(DateTime date) {
     switch(date.weekday) {
-      case 1:
+      case DateTime.monday:
         return 'Monday';
-      case 2:
+      case DateTime.tuesday:
         return 'Tuesday';
-      case 3:
+      case DateTime.wednesday:
         return 'Wednesday';
-      case 4:
+      case DateTime.thursday:
         return 'Thursday';
-      case 5:
+      case DateTime.friday:
         return 'Friday';
-      case 6:
+      case DateTime.saturday:
         return 'Saturday';
       default:
         return 'Sunday';
@@ -32,6 +32,41 @@ class CommonDateUtils {
   /// converts Date Time to DD/MM/YYYY format
   static String convertDateTimeToString(DateTime date) {
     return '${date.day}/${date.month}/${date.year}';
+  }
+
+  /// converts Date Time to Saturday 16th March 2024 format
+  static String convertDateTimeToLongDateString(DateTime date) {
+
+    final day = convertDateTimeToDay(date);
+    final String month;
+    switch(date.month) {
+      case DateTime.january:
+        month = 'January';
+      case DateTime.february:
+        month = 'February';
+      case DateTime.march:
+        month = 'March';
+      case DateTime.april:
+        month = 'April';
+      case DateTime.may:
+        month = 'May';
+      case DateTime.june:
+        month = 'June';
+      case DateTime.july:
+        month = 'July';
+      case DateTime.august:
+        month = 'August';
+      case DateTime.september:
+        month = 'September';
+      case DateTime.october:
+        month = 'October';
+      case DateTime.november:
+        month = 'November';
+      default:
+        month = 'December';
+    }
+
+    return '$day ${date.day} $month ${date.year}';
   }
 
   /// converts DateTime to hours:minutes format

@@ -27,13 +27,15 @@ class NotificationScreen extends StatelessWidget {
               label: 'Account',),
           ],
           onTap: (index) {
-            switch(index) {
-              case 0:
-                context.push('/Notification');
-              case 1:
-                context.push('/Order');
-              case 2:
-                context.push('/Account');
+            if (index != 0) {
+              switch (index) {
+                case 0:
+                  context.push('/Notification');
+                case 1:
+                  context.push('/Order');
+                case 2:
+                  context.push('/Account');
+              }
             }
           },
         ),

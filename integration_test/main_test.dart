@@ -16,6 +16,7 @@ import 'package:gigantic_ticket_wallet/network/endpoints/verification_end_points
 import 'package:gigantic_ticket_wallet/network/login_api.dart';
 import 'package:gigantic_ticket_wallet/network/order_api.dart';
 import 'package:gigantic_ticket_wallet/network/verification_api.dart';
+import 'package:gigantic_ticket_wallet/orderScreen/order_screen_repository.dart';
 import 'package:gigantic_ticket_wallet/syncScreen/sync_screen_repository.dart';
 import 'package:gigantic_ticket_wallet/utils/connection_utils.dart';
 import 'package:gigantic_ticket_wallet/verificationScreen/verification_screen_repository.dart';
@@ -147,6 +148,11 @@ void setupTestDependencyInjection() {
       api: api,
       orderDatabase: orderDatabase,
       ticketDatabase: ticketDatabase,);
+  });
+
+  GetIt.I.registerLazySingleton<OrderScreenRepositoryInterface>(() {
+    final orderDatabase = GetIt.I.get<OrderDatabaseInterface>();
+    return OrderScreenRepository(orderDatabase: orderDatabase);
   });
 
   //utils

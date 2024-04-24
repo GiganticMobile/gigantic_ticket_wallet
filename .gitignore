@@ -47,3 +47,4 @@ app.*.map.json
 /lib/database/database.g.dart
 /lib/syncScreen/sync_screen_notifier.g.dart
 /lib/accountScreen/account_screen_notifier.g.dart
+/lib/orderScreen/order_screen_notifier.g.dart
