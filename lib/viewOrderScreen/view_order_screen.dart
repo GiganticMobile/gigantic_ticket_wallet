@@ -23,70 +23,283 @@ class ViewOrderScreen extends StatelessWidget {
             title: const Text('123-456-789'),
           ),
         body: ListView(children: [
-          Container(
-            height: 200,
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: Colors.cyanAccent,
-              borderRadius: BorderRadius.circular(4),),
+
+          /** it might be better if the event title replaces the
+           * event reference, and the event reference and event
+           * date go in the event information section.
+           * This would allow the user to see the ticket
+           * selector without the need to scroll.
+           */
+          const ScreenTitle(),
+
+          const TicketView(),
+
+          const TicketSelector(),
+
+          const Divider(color: Colors.green,),
+
+          const EventSchedule(),
+
+          const Divider(color: Colors.green,),
+
+          const EventInfo(),
+
+          const Divider(color: Colors.green,),
+
+          const VenueInfo(),
+
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: ListTile(
+              leading: const Icon(Icons.help_outline),
+              title: const Text('Contact customer services'),
+              trailing: IconButton(onPressed: () {
+
+              }, icon: const Icon(Icons.arrow_forward),),
+              shape: Border.all(color: Colors.cyan),
+            ),
           ),
-
-          Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-              ),
-            child: Column(children: [
-              ListTile(
-                leading: const Icon(Icons.confirmation_num_outlined),
-                title: const Text('View your tickets'),
-                subtitle: const Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('3 x seats'),
-                    Text('2 x general admission'),
-                ],),
-                trailing: IconButton(onPressed: () {
-
-                }, icon: const Icon(Icons.arrow_forward),),
-                shape: Border.all(color: Colors.cyan),
-              ),
-
-              ListTile(
-                leading: const Icon(Icons.swap_horiz),
-                title: const Text('Transfer tickets to a friend'),
-                trailing: IconButton(onPressed: () {
-
-                }, icon: const Icon(Icons.arrow_forward),),
-                shape: Border.all(color: Colors.cyan),
-              ),
-
-              ListTile(
-                leading: const Icon(Icons.help_outline),
-                title: const Text('Contact customer services'),
-                trailing: IconButton(onPressed: () {
-
-                }, icon: const Icon(Icons.arrow_forward),),
-                shape: Border.all(color: Colors.cyan),
-              ),
-            ],),
-          ),
-
-          const Text('EVENT TITLE'),
-
-          const Text('Riverside stadium'),
-
-          const Text('Information'),
-
-          const Text('Event description'),
-
-          const Text('Venue'),
-
-          const QRCodeView(),
 
         ],),
         ),
     );
+  }
+}
+
+/// this widget contains the event title and date
+class ScreenTitle extends StatelessWidget {
+  /// constructor
+  const ScreenTitle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+        Text('Event title',
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+        Text('Saturday 16 March 2024'),
+      ],),
+    );
+  }
+}
+
+///displays a ticket
+class TicketView extends StatelessWidget {
+  ///constructor
+  const TicketView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Container(
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(4),),
+      child: const Column(
+        children: [
+
+          //QRCodeView(),
+          EmptyQRCode(),
+
+          Text('Ticket heading',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+          Text('Ticket label',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+
+          //face value
+          Text('£75.00'),
+
+          Divider(color: Colors.green,),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+              Text('Block'),
+              Text('Block name',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,),),
+            ],),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Row'),
+                Text('AB',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,),),
+              ],),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Seat'),
+                Text('123',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,),),
+              ],),
+          ],),
+
+          Divider(color: Colors.green,),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Entrance'),
+                  Text('Entrance name',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,),),
+                ],),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Stand'),
+                  Text('stand name',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,),),
+                ],),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Codes'),
+                  Text('Code name',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,),),
+                ],),
+            ],),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Gate'),
+                  Text('Gate name',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,),),
+                ],),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Area'),
+                  Text('Area name',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,),),
+                ],),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Turnstiles'),
+                  Text('Turnstiles name',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,),),
+                ],),
+            ],),
+          ],),
+
+          Divider(color: Colors.green,),
+
+          ListTile(
+            leading: Icon(Icons.more_horiz),
+            title: Text('Ticket options'),),
+
+      ],),
+    );
+  }
+}
+
+/// select ticket
+class TicketSelector extends StatelessWidget {
+  ///constructor
+  const TicketSelector({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 50,
+          width: 170,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: 5,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(4),
+                child: IconButton.filled(
+                  onPressed: () {},
+                  icon: Text('$index',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,),
+                  ),
+                ),
+              );
+            },),
+        ),
+      ],
+    );
+  }
+}
+
+/// this is a widget that is displayed when the qr code
+/// is hidden.
+class EmptyQRCode extends StatelessWidget {
+  /// constructor
+  const EmptyQRCode({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 220,
+      height: 220,
+      margin: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: Theme.of(context).colorScheme.onBackground),
+      ),
+      child: const Center(
+      child: Text('QR code will be available closer to the event',
+        style: TextStyle(fontSize: 18,),
+        textAlign: TextAlign.center,),
+    ),);
   }
 }
 
@@ -106,7 +319,7 @@ class _QRCodeViewState extends State<QRCodeView> with TickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
     duration: const Duration(seconds: 10),
-  )..repeat(reverse: true);
+  )..repeat(reverse: false);
 
   final Tween<double> _tween = Tween(begin: 0, end: 100);
 
@@ -131,11 +344,12 @@ class _QRCodeViewState extends State<QRCodeView> with TickerProviderStateMixin {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
       Container(
+        margin: const EdgeInsets.all(8),
         height: 220,
         width: 220,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: Colors.red),
+            //border: Border.all(color: Colors.red),
         ),
         child: CustomPaint(
           painter: QRCoderPainter(animation.value),
@@ -148,7 +362,6 @@ class _QRCodeViewState extends State<QRCodeView> with TickerProviderStateMixin {
     ],);
   }
 }
-
 
 /// this animates the boarder of the qr code
 class QRCoderPainter extends CustomPainter {
@@ -272,30 +485,6 @@ class QRCoderPainter extends CustomPainter {
 
       path.lineTo(x, y);
 
-    //this starts at 0,0 finishes 210, 0
-    /*final double x;
-    final double y = 0;
-    if (progress < (size.width)) {
-      x = progress;
-    } else {
-      x = size.width;
-    }*/
-
-    //this starts are -10, 0 finishes 200, 0
-    /*final double trailingX;
-    final double trailingY = 0;
-    if (progress > lineLength) {
-      trailingX = progress - lineLength;
-    } else {
-      trailingX = 0;
-    }*/
-
-    /*
-    final path = Path();
-    path.moveTo(x, y);
-
-    path.lineTo(trailingX, trailingY);*/
-
     canvas.drawPath(path, paint);
 
   }
@@ -307,63 +496,116 @@ class QRCoderPainter extends CustomPainter {
   
 }
 
-/// paints a custom icon
-class OrderPainter  extends CustomPainter {
+///widget the contains the event schedule
+class EventSchedule extends StatelessWidget {
+  /// constructor
+  const EventSchedule({super.key});
+
   @override
-  void paint(Canvas canvas, Size size) {
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 130,
+      child: CustomPaint(
+          painter: EventSchedulePainter(),
+      ),
+    );
+  }
+}
+
+///this draws the event schedule
+class EventSchedulePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, ui.Size size) {
 
     final paint = Paint()
+      ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..color = Colors.lightBlue
-      ..strokeWidth = 10.0;
+      ..strokeWidth = 8.0;
 
+    //this draws a line of cycles linked by lines
+    //this maps out the event schedule
     final path = Path()
 
-    ..moveTo(0, 0)
-
-    ..lineTo(0, 50)
-
-    ..moveTo(0, 50)
-    
     ..addOval(Rect.fromCenter(
-        center: const Offset(0, 75),
-        width: 50,
-        height: 50,),)
+    center: const Offset(25, 15),
+    width: 25,
+    height: 25,),)
 
-    ..moveTo(0, 100)
+    ..moveTo(25, 30)
 
-    ..lineTo(0, 150);
-    
+    ..lineTo(25, 50)
+
+    ..addOval(Rect.fromCenter(
+      center: const Offset(25, 65),
+      width: 25,
+      height: 25,),)
+
+    ..moveTo(25, 80)
+
+    ..lineTo(25, 100)
+
+    ..addOval(Rect.fromCenter(
+      center: const Offset(25, 115),
+      width: 25,
+      height: 25,),);
+
     canvas.drawPath(path, paint);
 
+    // this draws the times (as text) of the event schedule
+    // each time is place next to a circle
+    const style = TextStyle(
+        color: Colors.black,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,);
+    final paragraphStyle = ui.ParagraphStyle(
+      fontSize:   style.fontSize,
+      fontFamily: style.fontFamily,
+      fontStyle:  style.fontStyle,
+      fontWeight: style.fontWeight,
+      textAlign: TextAlign.justify,
+      maxLines: 1,
+      ellipsis: '...',
+    );
 
-    //final center = size/2;
-    final cyclePaint = Paint()
-      ..style = PaintingStyle.fill
-      ..color = Colors.lightBlue
-      ..strokeWidth = 10.0;
-    canvas.drawCircle(const Offset(0, 75), 25, cyclePaint);
-
-    const style = TextStyle(color: Colors.black, fontSize: 18,);
-
-    final paragraphBuilder = ui.ParagraphBuilder(
-        ui.ParagraphStyle(
-          fontSize:   style.fontSize,
-          fontFamily: style.fontFamily,
-          fontStyle:  style.fontStyle,
-          fontWeight: style.fontWeight,
-          textAlign: TextAlign.justify,
-          maxLines: 1,
-          ellipsis: '...',
-        ),
-    )
+    var paragraphBuilder = ui.ParagraphBuilder(paragraphStyle)
       ..pushStyle(style.getTextStyle())
-      ..addText('gates open 15:30');
+      ..addText('Gates at 15:30');
 
-    final paragraph = paragraphBuilder.build()
+    var paragraph = paragraphBuilder.build()
+      ..layout(const ui.ParagraphConstraints(width: 120));
+
+    canvas.drawParagraph(paragraph, const Offset(45, 6));
+
+    paragraphBuilder = ui.ParagraphBuilder(paragraphStyle)
+      ..pushStyle(style.getTextStyle())
+      ..addText('Begins at 15:30');
+
+    paragraph = paragraphBuilder.build()
       ..layout(const ui.ParagraphConstraints(width: 150));
 
-    canvas.drawParagraph(paragraph, const Offset(40, 60));
+    canvas.drawParagraph(paragraph, const Offset(45, 56));
+
+    paragraphBuilder = ui.ParagraphBuilder(paragraphStyle)
+      ..pushStyle(style.getTextStyle())
+      ..addText('Ends at 15:30');
+
+    paragraph = paragraphBuilder.build()
+      ..layout(const ui.ParagraphConstraints(width: 150));
+
+    //it is 106 because the top of the circle is at 100
+    //and adding the 6 (i.e. 1/4 of the height of the circle)
+    //will put the centre of the text line with the centre
+    // of the circle
+    canvas.drawParagraph(paragraph, const Offset(45, 106));
+
+    //this fills a circle in the schedule and is used to represent
+    //that the schedule is at a specific point
+    final cyclePaint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = Colors.green //green for on time red for delayed
+      ..strokeWidth = 10.0;
+    canvas.drawCircle(const Offset(25, 15), 10, cyclePaint);
 
   }
 
@@ -372,4 +614,61 @@ class OrderPainter  extends CustomPainter {
     return false;
   }
 
+}
+
+/// this contains event information
+class EventInfo extends StatelessWidget {
+  /// constructor
+  const EventInfo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+        const Text('Information',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+
+        const Text('general information about the event'),
+
+        Container(
+          height: 200,
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            color: Colors.cyanAccent,
+            borderRadius: BorderRadius.circular(4),),
+        ),
+      ],),
+    );
+  }
+}
+
+/// this contains venue information
+class VenueInfo extends StatelessWidget {
+  /// constructor
+  const VenueInfo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+        Text('Venue',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+
+        //address of the venue
+        Text('Royal concert hall'),
+        Text('Theatre square'),
+        Text('Nottingham'),
+        Text('NG1 5ND'),
+        Text('UK'),
+
+        Text('general information about the venue'),
+      ],),
+    );
+  }
 }
