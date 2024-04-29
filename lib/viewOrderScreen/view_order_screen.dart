@@ -254,24 +254,25 @@ class TicketSelector extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          height: 50,
-          width: 170,
+          height: 40,
+          width: 140,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: 5,
             itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(4),
-                child: IconButton.filled(
-                  onPressed: () {},
-                  icon: Text('$index',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,),
-                  ),
+              return index != 6 ?
+              IconButton.filled(
+                onPressed: () {},
+                icon: Text('$index',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,),
                 ),
-              );
+              )
+                  :
+              IconButton(onPressed: () {},
+                  icon: const Icon(Icons.fiber_manual_record),);
             },),
         ),
       ],
