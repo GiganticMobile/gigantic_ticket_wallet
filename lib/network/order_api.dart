@@ -33,6 +33,7 @@ class OrderAPI extends OrderAPIInterface {
     final orders = List<Order>.empty(growable: true);
     if (json case {
     'orders': final Map<String, dynamic> orderJson,
+    //'transfers': final Map<String, dynamic> transfers, //transferred tickets
     }) {
       for (final orderId in orderJson.keys) {
         final order = Order.fromJson(orderId, orderJson[orderId]);

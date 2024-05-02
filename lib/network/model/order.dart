@@ -1,5 +1,5 @@
+import 'package:gigantic_ticket_wallet/network/model/event.dart';
 import 'package:gigantic_ticket_wallet/network/model/ticket.dart';
-import 'package:gigantic_ticket_wallet/utils/date_utils.dart';
 
 /// order returned by api
 class Order {
@@ -8,8 +8,6 @@ class Order {
     required this.id,
     required this.orderReference,
     required this.event,
-    required this.venue,
-    required this.startTime,
     required this.tickets,
   });
 
@@ -19,21 +17,11 @@ class Order {
       if (json case {
       'order_ref': final String orderReference,
       'event': final dynamic event,
-      'tickets': final Map<String, dynamic> tickets
+      'tickets': final Map<String, dynamic> tickets,
+      'order_has_refund_plan': final bool hasRefundPlan,
       }) {
-        var eventTitle = 'test';
-        var venueTitle = 'test';
-        var eventStartTime = 0;
 
-        if (event case {
-        'event_title': final String event,
-        'venue_title': final String venue,
-        'event_start_time': final String startTime,
-        }) {
-          eventTitle = event;
-          venueTitle = venue;
-          eventStartTime = int.tryParse(startTime) ?? 0;
-        }
+        this.event = Event.fromJson(event);
 
         final orderTickets = List<Ticket>.empty(growable: true);
         for (final ticket in tickets.entries) {
@@ -44,14 +32,10 @@ class Order {
           }
         }
 
-        final startTime = CommonDateUtils.getDateFromInt(eventStartTime);
-
         id = orderId;
         this.orderReference = orderReference;
-        this.event = eventTitle;
-        venue = venueTitle;
-        this.startTime = startTime;
         this.tickets = orderTickets;
+        this.hasRefundPlan = hasRefundPlan;
       }  else {
         throw Exception('unable to map to json');
       }
@@ -65,11 +49,13 @@ class Order {
   ///
   late final String orderReference;
   ///
-  late final String event;
+  late final Event event;
   ///
-  late final String venue;
+  //late final String venue;
   /// event start time
-  late final DateTime startTime;
+  //late final DateTime startTime;
   /// tickets that are linked to this order
   late final List<Ticket> tickets;
+  ///
+  late final bool hasRefundPlan;
 }

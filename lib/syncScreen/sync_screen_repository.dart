@@ -28,9 +28,9 @@ class SyncScreenRepository extends SyncScreenRepositoryInterface {
           OrderData(
               id: order.id,
               reference: order.orderReference,
-              event: order.event,
-              venue: order.venue,
-              startTime: order.startTime.millisecondsSinceEpoch,),
+              event: order.event.title,
+              venue: order.event.venue,
+              startTime: order.event.startTime.millisecondsSinceEpoch,),
       );
 
       for (final ticket in order.tickets) {
