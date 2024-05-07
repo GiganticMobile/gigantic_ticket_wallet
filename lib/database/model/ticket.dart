@@ -16,6 +16,41 @@ class Ticket extends Table {
   TextColumn get label => text()();
   /// ticket price
   RealColumn get value => real()();
+  ///
+  RealColumn get bookingFee => real()();
+  ///null cancelled date means ticket has not been cancelled
+  ///time in millisecondsSinceEpoch
+  IntColumn get ticketCancelledDate => integer().nullable()();
+  ///
+  TextColumn get entranceInfo => text()();
+  ///
+  TextColumn get entranceArea => text()();
+  ///
+  TextColumn get entranceAisle => text()();
+  ///
+  TextColumn get entranceGate => text()();
+  ///
+  TextColumn get entranceCodes => text()();
+  ///
+  TextColumn get entrancePassageway => text()();
+  ///
+  TextColumn get entranceTurnstiles => text()();
+  ///
+  TextColumn get entranceStand => text()();
+  ///
+  TextColumn get transferTo => text()();
+  ///null cancelled date means ticket has not been transferred
+  ///time in millisecondsSinceEpoch
+  IntColumn get transferTimestamp => integer().nullable()();
+  ///null cancelled date means ticket doors open time has not been overridden
+  ///time in millisecondsSinceEpoch
+  IntColumn get doorsOpenTimeOverride => integer().nullable()();
+  ///null cancelled date means ticket event time has not been overridden
+  ///time in millisecondsSinceEpoch
+  IntColumn get eventTimeOverride => integer().nullable()();
+  ///null cancelled date means ticket end time has not been overridden
+  ///time in millisecondsSinceEpoch
+  IntColumn get endTimeOverride => integer().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

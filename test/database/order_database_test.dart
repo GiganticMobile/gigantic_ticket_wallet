@@ -20,9 +20,9 @@ void main() {
     const order = OrderData(
         id: expectedId,
         reference: 'reference',
-        event: 'event',
-        venue: 'venue',
-        startTime: 0,);
+        startTime: 0,
+        hasRefundPlan: true,
+    );
 
     await orderDatabase.addOrder(order);
 

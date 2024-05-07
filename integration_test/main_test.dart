@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:gigantic_ticket_wallet/accountScreen/account_screen_repository.dart';
 import 'package:gigantic_ticket_wallet/database/account_database.dart';
 import 'package:gigantic_ticket_wallet/database/database.dart';
+import 'package:gigantic_ticket_wallet/database/event_database.dart';
 import 'package:gigantic_ticket_wallet/database/login_database.dart';
 import 'package:gigantic_ticket_wallet/database/order_database.dart';
 import 'package:gigantic_ticket_wallet/database/ticket_database.dart';
@@ -68,6 +69,10 @@ void setupTestDependencyInjection() {
   GetIt.I.registerLazySingleton<OrderDatabaseInterface>(() {
     final database = GetIt.I.get<AppDatabase>();
     return OrderDatabase(database: database);
+  });
+  GetIt.I.registerLazySingleton<EventDatabaseInterface>(() {
+    final database = GetIt.I.get<AppDatabase>();
+    return EventDatabase(database: database);
   });
   GetIt.I.registerLazySingleton<TicketDatabaseInterface>(() {
     final database = GetIt.I.get<AppDatabase>();
@@ -142,17 +147,22 @@ void setupTestDependencyInjection() {
   GetIt.I.registerLazySingleton<SyncScreenRepositoryInterface>(() {
     final api = GetIt.I.get<OrderAPIInterface>();
     final orderDatabase = GetIt.I.get<OrderDatabaseInterface>();
+    final eventDatabase = GetIt.I.get<EventDatabaseInterface>();
     final ticketDatabase = GetIt.I.get<TicketDatabaseInterface>();
 
     return SyncScreenRepository(
       api: api,
       orderDatabase: orderDatabase,
+      eventDatabase: eventDatabase,
       ticketDatabase: ticketDatabase,);
   });
 
   GetIt.I.registerLazySingleton<OrderScreenRepositoryInterface>(() {
     final orderDatabase = GetIt.I.get<OrderDatabaseInterface>();
-    return OrderScreenRepository(orderDatabase: orderDatabase);
+    final eventDatabase = GetIt.I.get<EventDatabaseInterface>();
+    return OrderScreenRepository(
+        orderDatabase: orderDatabase,
+        eventDatabase: eventDatabase,);
   });
 
   //utils

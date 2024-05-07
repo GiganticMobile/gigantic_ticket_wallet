@@ -9,6 +9,7 @@ class Order {
     required this.orderReference,
     required this.event,
     required this.tickets,
+    required this.hasRefundPlan,
   });
 
   /// convert json to order

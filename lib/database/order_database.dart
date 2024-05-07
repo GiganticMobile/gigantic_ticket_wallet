@@ -12,9 +12,8 @@ class OrderDatabase extends OrderDatabaseInterface {
     final inserting = OrderCompanion.insert(
         id: order.id,
         reference: order.reference,
-        event: order.event,
-        venue: order.venue,
-        startTime: order.startTime,);
+        startTime: order.startTime,
+        hasRefundPlan: order.hasRefundPlan,);
 
     await _database.into(_database.order).insertOnConflictUpdate(inserting);
   }

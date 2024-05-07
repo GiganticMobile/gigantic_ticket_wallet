@@ -88,7 +88,7 @@ void main() {
     expect(ticket.transferTimestamp?.millisecondsSinceEpoch,
         expectedTransferDate * 1000,
         reason: 'unexpected ticket transfer date',);
-    expect(ticket.startTimeOverride?.millisecondsSinceEpoch,
+    expect(ticket.doorsTimeOverride?.millisecondsSinceEpoch,
         expectedStartTimeOverride * 1000,
         reason: 'unexpected ticket start time override',);
     expect(ticket.eventTimeOverride?.millisecondsSinceEpoch,

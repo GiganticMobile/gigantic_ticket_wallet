@@ -1,3 +1,4 @@
+import 'package:gigantic_ticket_wallet/database/event_database.dart';
 import 'package:gigantic_ticket_wallet/database/order_database.dart';
 import 'package:gigantic_ticket_wallet/orderScreen/order_item.dart';
 import 'package:gigantic_ticket_wallet/utils/date_utils.dart';
@@ -7,9 +8,11 @@ class OrderScreenRepository extends OrderScreenRepositoryInterface {
   /// Constructor
   OrderScreenRepository({
     required OrderDatabaseInterface orderDatabase,
-}) : _orderDatabase = orderDatabase;
+    required EventDatabaseInterface eventDatabase,
+}) : _orderDatabase = orderDatabase, _eventDatabase = eventDatabase;
 
   final OrderDatabaseInterface _orderDatabase;
+  final EventDatabaseInterface _eventDatabase;
 
   @override
   Future<List<OrderItem>> getOrders() async {
@@ -17,22 +20,28 @@ class OrderScreenRepository extends OrderScreenRepositoryInterface {
 
     databaseOrders.sort((a, b) => a.startTime.compareTo(b.startTime));
 
-    return databaseOrders.map((order) {
+    final orderItemList = List<OrderItem>.empty(growable: true);
+
+    for (final order in databaseOrders) {
+      final databaseEvent = await _eventDatabase.getEventByOrder(order.id);
+
       final eventDateTime =
-      DateTime.fromMillisecondsSinceEpoch(order.startTime);
+      DateTime.fromMillisecondsSinceEpoch(databaseEvent.first.doorsOpenTime);
 
       final eventStartDate =
       CommonDateUtils.convertDateTimeToLongDateString(eventDateTime);
 
-      return OrderItem(
-          imageUrl: '',
-          eventName: order.event,
-          eventStartDate: eventStartDate,
-          venueLocation: order.venue,
-          orderReference: order.reference,
-          ticketAmount: 3,
-          transferredTicketAmount: 3,);
-    }).toList();
+      orderItemList.add(OrderItem(
+        imageUrl: databaseEvent.first.eventImage,
+        eventName: databaseEvent.first.title,
+        eventStartDate: eventStartDate,
+        venueLocation: databaseEvent.first.venueAddress,
+        orderReference: order.reference,
+        ticketAmount: 3,
+        transferredTicketAmount: 3,),);
+    }
+
+    return orderItemList;
   }
 
 }

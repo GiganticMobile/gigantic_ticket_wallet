@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:gigantic_ticket_wallet/database/database.dart';
 
 ///handles interactions with the tickets in the database
@@ -15,7 +16,23 @@ class TicketDatabase extends TicketDatabaseInterface {
       barcode: ticket.barcode,
       heading: ticket.heading,
       label: ticket.label,
-      value: ticket.value,);
+      value: ticket.value,
+      bookingFee: ticket.bookingFee,
+      ticketCancelledDate: Value(ticket.ticketCancelledDate),
+      entranceInfo: ticket.entranceInfo,
+      entranceArea: ticket.entranceArea,
+      entranceAisle: ticket.entranceAisle,
+      entranceGate: ticket.entranceGate,
+      entranceCodes: ticket.entranceCodes,
+      entrancePassageway: ticket.entrancePassageway,
+      entranceTurnstiles: ticket.entranceTurnstiles,
+      entranceStand: ticket.entranceStand,
+      transferTo: ticket.transferTo,
+      transferTimestamp: Value(ticket.transferTimestamp),
+      doorsOpenTimeOverride: Value(ticket.doorsOpenTimeOverride),
+      eventTimeOverride: Value(ticket.eventTimeOverride),
+      endTimeOverride: Value(ticket.endTimeOverride),
+    );
 
     await _database.into(_database.ticket).insertOnConflictUpdate(inserting);
   }

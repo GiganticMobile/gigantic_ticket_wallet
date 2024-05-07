@@ -21,7 +21,7 @@ class Ticket {
     required this.entranceStand,
     required this.transferTo,
     required this.transferTimestamp,
-    required this.startTimeOverride,
+    required this.doorsTimeOverride,
     required this.eventTimeOverride,
     required this.endTimeOverride,
   });
@@ -87,10 +87,10 @@ class Ticket {
 
         final startTimeOverrideDate = int.tryParse(startTimeOverride) ?? 0;
         if (startTimeOverrideDate != 0) {
-          this.startTimeOverride =
+          doorsTimeOverride =
               CommonDateUtils.getDateFromInt(startTimeOverrideDate);
         } else {
-          this.startTimeOverride = null;
+          doorsTimeOverride = null;
         }
 
         final eventTimeOverrideDate = int.tryParse(eventTimeOverride) ?? 0;
@@ -152,7 +152,7 @@ class Ticket {
   /// if null ticket not transferred
   late final DateTime? transferTimestamp;
   /// if null no start time override
-  late final DateTime? startTimeOverride;
+  late final DateTime? doorsTimeOverride;
   /// if null no event time override
   late final DateTime? eventTimeOverride;
   /// if null no end time override
