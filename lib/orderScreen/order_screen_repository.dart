@@ -25,17 +25,23 @@ class OrderScreenRepository extends OrderScreenRepositoryInterface {
     for (final order in databaseOrders) {
       final databaseEvent = await _eventDatabase.getEventByOrder(order.id);
 
-      final eventDateTime =
-      DateTime.fromMillisecondsSinceEpoch(databaseEvent.first.doorsOpenTime);
+      final String eventStartDate;
+      if (databaseEvent != null) {
+        final eventDateTime =
+        DateTime.fromMillisecondsSinceEpoch(databaseEvent.doorsOpenTime);
 
-      final eventStartDate =
-      CommonDateUtils.convertDateTimeToLongDateString(eventDateTime);
+        eventStartDate =
+            CommonDateUtils.convertDateTimeToLongDateString(eventDateTime);
+      } else {
+        eventStartDate = '';
+      }
 
       orderItemList.add(OrderItem(
-        imageUrl: databaseEvent.first.eventImage,
-        eventName: databaseEvent.first.title,
+        id: order.id,
+        imageUrl: databaseEvent?.eventImage ?? '',
+        eventName: databaseEvent?.title ?? '',
         eventStartDate: eventStartDate,
-        venueLocation: databaseEvent.first.venueAddress,
+        venueLocation: databaseEvent?.venueAddress ?? '',
         orderReference: order.reference,
         ticketAmount: 3,
         transferredTicketAmount: 3,),);

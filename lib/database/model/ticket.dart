@@ -21,25 +21,25 @@ class Ticket extends Table {
   ///null cancelled date means ticket has not been cancelled
   ///time in millisecondsSinceEpoch
   IntColumn get ticketCancelledDate => integer().nullable()();
-  ///
-  TextColumn get entranceInfo => text()();
-  ///
-  TextColumn get entranceArea => text()();
-  ///
-  TextColumn get entranceAisle => text()();
-  ///
-  TextColumn get entranceGate => text()();
-  ///
-  TextColumn get entranceCodes => text()();
-  ///
-  TextColumn get entrancePassageway => text()();
-  ///
-  TextColumn get entranceTurnstiles => text()();
-  ///
-  TextColumn get entranceStand => text()();
-  ///
-  TextColumn get transferTo => text()();
-  ///null cancelled date means ticket has not been transferred
+  /// not all tickets will have this info
+  TextColumn get entranceInfo => text().nullable()();
+  /// not all tickets will have this info
+  TextColumn get entranceArea => text().nullable()();
+  /// not all tickets will have this info
+  TextColumn get entranceAisle => text().nullable()();
+  /// not all tickets will have this info
+  TextColumn get entranceGate => text().nullable()();
+  /// not all tickets will have this info
+  TextColumn get entranceCodes => text().nullable()();
+  /// not all tickets will have this info
+  TextColumn get entrancePassageway => text().nullable()();
+  /// not all tickets will have this info
+  TextColumn get entranceTurnstiles => text().nullable()();
+  /// not all tickets will have this info
+  TextColumn get entranceStand => text().nullable()();
+  /// if null then ticket is not transferred
+  TextColumn get transferTo => text().nullable()();
+  ///null transfer date means ticket has not been transferred
   ///time in millisecondsSinceEpoch
   IntColumn get transferTimestamp => integer().nullable()();
   ///null cancelled date means ticket doors open time has not been overridden

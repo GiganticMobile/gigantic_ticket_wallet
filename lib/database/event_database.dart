@@ -43,10 +43,10 @@ class EventDatabase extends EventDatabaseInterface {
   }
 
   @override
-  Future<List<EventData>> getEventByOrder(String orderId) async {
+  Future<EventData?> getEventByOrder(String orderId) async {
     final events = await (_database.select(_database.event)
       ..where((event) => event.order.equals(orderId)))
-      .get();
+      .getSingleOrNull();
 
     return events;
   }
@@ -63,5 +63,5 @@ abstract class EventDatabaseInterface {
   Future<List<EventData>> getEvents();
 
   ///
-  Future<List<EventData>> getEventByOrder(String orderId);
+  Future<EventData?> getEventByOrder(String orderId);
 }

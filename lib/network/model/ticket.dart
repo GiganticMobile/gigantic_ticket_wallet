@@ -67,15 +67,59 @@ class Ticket {
           this.ticketCancelledDate = null;
         }
 
-        this.entranceInfo = entranceInfo;
-        this.entranceArea = entranceArea;
-        this.entranceAisle = entranceAisle;
-        this.entranceGate = entranceGate;
-        this.entranceCodes = entranceCodes;
-        this.entrancePassageway = entrancePassageway;
-        this.entranceTurnstiles = entranceTurnstiles;
-        this.entranceStand = entranceStand;
-        this.transferTo = transferTo;
+        if (entranceInfo.isEmpty) {
+          this.entranceInfo = null;
+        } else {
+          this.entranceInfo = entranceInfo;
+        }
+
+        if (entranceArea.isEmpty) {
+          this.entranceArea = null;
+        } else {
+          this.entranceArea = entranceArea;
+        }
+
+        if (entranceAisle.isEmpty) {
+          this.entranceAisle = null;
+        } else {
+          this.entranceAisle = entranceAisle;
+        }
+
+        if (entranceGate.isEmpty) {
+          this.entranceGate = null;
+        } else {
+          this.entranceGate = entranceGate;
+        }
+
+        if (entranceCodes.isEmpty) {
+          this.entranceCodes = null;
+        } else {
+          this.entranceCodes = entranceCodes;
+        }
+
+        if (entrancePassageway.isEmpty) {
+          this.entrancePassageway = null;
+        } else {
+          this.entrancePassageway = entrancePassageway;
+        }
+
+        if (entranceTurnstiles.isEmpty) {
+          this.entranceTurnstiles = null;
+        } else {
+          this.entranceTurnstiles = entranceTurnstiles;
+        }
+
+        if (entranceStand.isEmpty) {
+          this.entranceStand = null;
+        } else {
+          this.entranceStand = entranceStand;
+        }
+
+        if (transferTo.isEmpty) {
+          this.transferTo = null;
+        } else {
+          this.transferTo = transferTo;
+        }
 
         final transferredDate = int.tryParse(transferTimestamp.toString()) ?? 0;
         if (transferredDate != 0) {
@@ -131,24 +175,24 @@ class Ticket {
   late final double bookingFee;
   ///this is null if the ticket is not cancelled
   late final DateTime? ticketCancelledDate;
-  ///
-  late final String entranceInfo;
-  ///
-  late final String entranceArea;
-  ///
-  late final String entranceAisle;
-  ///
-  late final String entranceGate;
-  ///
-  late final String entranceCodes;
-  ///
-  late final String entrancePassageway;
-  ///
-  late final String entranceTurnstiles;
-  ///
-  late final String entranceStand;
-  ///
-  late final String transferTo;
+  /// not all tickets will have this info
+  late final String? entranceInfo;
+  /// not all tickets will have this info
+  late final String? entranceArea;
+  /// not all tickets will have this info
+  late final String? entranceAisle;
+  /// not all tickets will have this info
+  late final String? entranceGate;
+  /// not all tickets will have this info
+  late final String? entranceCodes;
+  /// not all tickets will have this info
+  late final String? entrancePassageway;
+  /// not all tickets will have this info
+  late final String? entranceTurnstiles;
+  /// not all tickets will have this info
+  late final String? entranceStand;
+  /// if null ticket not transferred
+  late final String? transferTo;
   /// if null ticket not transferred
   late final DateTime? transferTimestamp;
   /// if null no start time override

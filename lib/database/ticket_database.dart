@@ -19,15 +19,15 @@ class TicketDatabase extends TicketDatabaseInterface {
       value: ticket.value,
       bookingFee: ticket.bookingFee,
       ticketCancelledDate: Value(ticket.ticketCancelledDate),
-      entranceInfo: ticket.entranceInfo,
-      entranceArea: ticket.entranceArea,
-      entranceAisle: ticket.entranceAisle,
-      entranceGate: ticket.entranceGate,
-      entranceCodes: ticket.entranceCodes,
-      entrancePassageway: ticket.entrancePassageway,
-      entranceTurnstiles: ticket.entranceTurnstiles,
-      entranceStand: ticket.entranceStand,
-      transferTo: ticket.transferTo,
+      entranceInfo: Value(ticket.entranceInfo),
+      entranceArea: Value(ticket.entranceArea),
+      entranceAisle: Value(ticket.entranceAisle),
+      entranceGate: Value(ticket.entranceGate),
+      entranceCodes: Value(ticket.entranceCodes),
+      entrancePassageway: Value(ticket.entrancePassageway),
+      entranceTurnstiles: Value(ticket.entranceTurnstiles),
+      entranceStand: Value(ticket.entranceStand),
+      transferTo: Value(ticket.transferTo),
       transferTimestamp: Value(ticket.transferTimestamp),
       doorsOpenTimeOverride: Value(ticket.doorsOpenTimeOverride),
       eventTimeOverride: Value(ticket.eventTimeOverride),
@@ -44,6 +44,15 @@ class TicketDatabase extends TicketDatabaseInterface {
     return tickets;
   }
 
+  @override
+  Future<List<TicketData>> getTicketsForOrder(String orderId) async {
+    final tickets = await (_database.select(_database.ticket)
+      ..where((ticket) => ticket.order.equals(orderId)))
+        .get();
+
+    return tickets;
+  }
+
 }
 
 ///
@@ -54,4 +63,7 @@ abstract class TicketDatabaseInterface {
 
   ///
   Future<List<TicketData>> getTickets();
+
+  ///
+  Future<List<TicketData>> getTicketsForOrder(String orderId);
 }

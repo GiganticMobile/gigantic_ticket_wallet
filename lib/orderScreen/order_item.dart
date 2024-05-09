@@ -2,6 +2,7 @@
 class OrderItem {
   /// constructor
   OrderItem({
+    required this.id,
     required this.imageUrl,
     required this.eventName,
     required this.eventStartDate,
@@ -11,6 +12,8 @@ class OrderItem {
     required this.transferredTicketAmount,
   });
 
+  ///
+  final String id;
   /// promotional image of the event
   final String imageUrl;
   ///

@@ -25,6 +25,15 @@ class OrderDatabase extends OrderDatabaseInterface {
     return orders;
   }
 
+  @override
+  Future<OrderData?> getOrder(String id) async {
+    final order = await (_database.select(_database.order)
+        ..where((order) => order.id.equals(id)))
+      .getSingleOrNull();
+
+    return order;
+  }
+
 }
 
 ///
@@ -35,4 +44,7 @@ abstract class OrderDatabaseInterface {
 
   ///
   Future<List<OrderData>> getOrders();
+
+  ///
+  Future<OrderData?> getOrder(String id);
 }

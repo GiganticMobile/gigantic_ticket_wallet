@@ -17,6 +17,7 @@ import 'package:gigantic_ticket_wallet/orderScreen/order_screen_repository.dart'
 import 'package:gigantic_ticket_wallet/syncScreen/sync_screen_repository.dart';
 import 'package:gigantic_ticket_wallet/utils/connection_utils.dart';
 import 'package:gigantic_ticket_wallet/verificationScreen/verification_screen_repository.dart';
+import 'package:gigantic_ticket_wallet/viewOrderScreen/view_order_screen_repository.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -139,6 +140,17 @@ void setupDependencyInjection() {
     return OrderScreenRepository(
         orderDatabase: orderDatabase,
         eventDatabase: eventDatabase,);
+  });
+
+  GetIt.I.registerLazySingleton<ViewOrderScreenRepositoryInterface>(() {
+    final orderDatabase = GetIt.I.get<OrderDatabaseInterface>();
+    final eventDatabase = GetIt.I.get<EventDatabaseInterface>();
+    final ticketDatabase = GetIt.I.get<TicketDatabaseInterface>();
+
+    return ViewOrderScreenRepository(
+        orderDatabase,
+        eventDatabase,
+        ticketDatabase,);
   });
 
   //utils

@@ -54,7 +54,7 @@ class OrderList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final orders = ref.watch(orderScreenNotifierProvider).value ?? List.empty();
+    final orders = ref.watch(orderScreenNotifierProvider);
 
     return ListView(children: [
       const Padding(
@@ -68,9 +68,9 @@ class OrderList extends ConsumerWidget {
       ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: orders.length,
+        itemCount: orders.valueOrNull?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
-          return OrderListItem(order: orders[index],);
+          return OrderListItem(order: orders.valueOrNull![index],);
         },),
 
       const Padding(
@@ -84,9 +84,9 @@ class OrderList extends ConsumerWidget {
       ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: orders.length,
+        itemCount: orders.valueOrNull?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
-          return PastOrderItem(order: orders[index],);
+          return PastOrderItem(order: orders.valueOrNull![index],);
         },),
     ],);
   }
@@ -156,7 +156,7 @@ class OrderListItem extends StatelessWidget {
                   ),
               ),
               onPressed: () {
-                context.push('/ViewOrder');
+                context.push('/ViewOrder', extra: _order.id);
               }, child: const Text('VIEW ORDER'),),),
           ],),
 
@@ -218,4 +218,3 @@ class PastOrderItem extends StatelessWidget {
     );
   }
 }
-
