@@ -30,21 +30,27 @@ class _BarcodeViewState extends State<BarcodeView> {
     _timer = Timer.periodic(
         const Duration(minutes: 1),
             (Timer timer) {
-              if (DateTime.now().compareTo(widget._viewAt) >= 0) {
-                _timer.cancel();
-                setState(() {
-                  _canViewBarcode = true;
-                });
-              } else {
-                if (_canViewBarcode == true) {
-                  setState(() {
-                    _canViewBarcode = false;
-                  });
-                }
-              }
+              _checkDate();
             },);
 
+    _checkDate();
+
     super.initState();
+  }
+
+  void _checkDate() {
+    if (widget._viewAt.compareTo(DateTime.now()) <= 0) {
+      _timer.cancel();
+      setState(() {
+        _canViewBarcode = true;
+      });
+    } else {
+      if (_canViewBarcode == true) {
+        setState(() {
+          _canViewBarcode = false;
+        });
+      }
+    }
   }
 
   @override

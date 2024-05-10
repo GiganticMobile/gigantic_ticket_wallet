@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gigantic_ticket_wallet/viewOrderScreen/barcode_view.dart';
 import 'package:gigantic_ticket_wallet/viewOrderScreen/event_schedule_view.dart';
-import 'package:gigantic_ticket_wallet/viewOrderScreen/order_info.dart';
+import 'package:gigantic_ticket_wallet/viewOrderScreen/ticket_view.dart';
 import 'package:gigantic_ticket_wallet/viewOrderScreen/view_order_screen_notifier.dart';
 import 'package:go_router/go_router.dart';
 
@@ -40,10 +39,8 @@ class ViewOrderScreen extends ConsumerWidget {
             eventDate: order.valueOrNull?.event.startDate ?? '',),
 
           if (order.valueOrNull != null)
-          TicketView(ticketInfo: order.valueOrNull!.tickets.first)
+            TicketListView(tickets: order.valueOrNull!.tickets)
           else const SizedBox.shrink(),
-
-          const TicketSelector(),
 
           const Divider(color: Colors.green,),
 
@@ -117,212 +114,6 @@ class ScreenTitle extends StatelessWidget {
           style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
         Text(_eventDate),
       ],),
-    );
-  }
-}
-
-///displays a ticket
-class TicketView extends StatelessWidget {
-  ///constructor
-  const TicketView({required TicketInfo ticketInfo, super.key})
-      : _ticketInfo = ticketInfo;
-  final TicketInfo _ticketInfo;
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Container(
-      padding: const EdgeInsets.all(8),
-      margin: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(4),),
-      child: Column(
-        children: [
-
-          BarcodeView(
-            barcode: '123456',
-            viewAt: DateTime.now().add(const Duration(minutes: 1)),),
-
-          Text(_ticketInfo.heading,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-          Text(_ticketInfo.label,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-
-          //face value
-          Text(_ticketInfo.value),
-
-          const Divider(color: Colors.green,),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-              Text('Block'),
-              Text('Block name',
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,),),
-            ],),
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text('Row'),
-                Text(_ticketInfo.seatRow,
-                  style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,),),
-              ],),
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text('Seat'),
-                Text(_ticketInfo.seatNum,
-                  style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,),),
-              ],),
-          ],),
-
-          const Divider(color: Colors.green,),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (_ticketInfo.entrance == null) const SizedBox.shrink()
-                else Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('Entrance'),
-                  Text(_ticketInfo.entrance!,
-                    style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,),),
-                ],),
-
-                if (_ticketInfo.entranceStand == null) const SizedBox.shrink()
-                else Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('Stand'),
-                  Text(_ticketInfo.entranceStand!,
-                    style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,),),
-                ],),
-
-                if (_ticketInfo.entranceCodes == null) const SizedBox.shrink()
-                else Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('Codes'),
-                  Text(_ticketInfo.entranceCodes!,
-                    style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,),),
-                ],),
-            ],),
-
-              if (_ticketInfo.entranceGate == null) const SizedBox.shrink()
-              else Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('Gate'),
-                  Text(_ticketInfo.entranceGate!,
-                    style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,),),
-                ],),
-
-                if (_ticketInfo.entranceArea == null) const SizedBox.shrink()
-                else Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('Area'),
-                  Text(_ticketInfo.entranceArea!,
-                    style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,),),
-                ],),
-
-                if (_ticketInfo.entranceTurnstiles == null)
-                  const SizedBox.shrink()
-                else
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text('Turnstiles'),
-                      Text(_ticketInfo.entranceTurnstiles!,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,),),
-                    ],),
-              ],),
-            ],),
-
-          const Divider(color: Colors.green,),
-
-          const ListTile(
-            leading: Icon(Icons.more_horiz),
-            title: Text('Ticket options'),),
-
-      ],),
-    );
-  }
-}
-
-/// select ticket
-class TicketSelector extends StatelessWidget {
-  ///constructor
-  const TicketSelector({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 40,
-          width: 140,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return index != 6 ?
-              IconButton.filled(
-                onPressed: () {},
-                icon: Text('$index',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,),
-                ),
-              )
-                  :
-              IconButton(onPressed: () {},
-                  icon: const Icon(Icons.fiber_manual_record),);
-            },),
-        ),
-      ],
     );
   }
 }

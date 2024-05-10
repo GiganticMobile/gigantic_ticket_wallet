@@ -91,8 +91,18 @@ class ViewOrderScreenRepository extends ViewOrderScreenRepositoryInterface {
         image: event?.campaignImage ?? '',
         venue: VenueInfo(address: venueAddress, description: ''),
       ), tickets: tickets.map((ticket) {
+
+        final DateTime showAt;
+        if (event?.doorsOpenTime != null) {
+          showAt =
+              DateTime.fromMillisecondsSinceEpoch(event?.doorsOpenTime ?? 0);
+        } else {
+          showAt = DateTime.now();
+        }
+
       return TicketInfo(
         barcode: ticket.barcode,
+        showAt: showAt,
         heading: ticket.heading,
         label: ticket.label,
         value: ticket.value.toStringAsFixed(2),

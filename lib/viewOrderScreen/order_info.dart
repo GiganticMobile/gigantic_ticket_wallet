@@ -70,6 +70,7 @@ class TicketInfo {
   /// constructor
   TicketInfo({
     required this.barcode,
+    required this.showAt,
     required this.heading,
     required this.label,
     required this.value,
@@ -88,6 +89,8 @@ class TicketInfo {
 
   ///
   final String barcode;
+  /// show barcode after this time
+  final DateTime showAt;
   /// ticket title
   final String heading;
   ///
