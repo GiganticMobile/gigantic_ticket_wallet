@@ -57,12 +57,18 @@ class VenueInfo {
   VenueInfo({
     required this.address,
     required this.description,
+    this.longitude,
+    this.latitude,
   });
 
   ///
   final String address;
   ///
   final String description;
+  ///
+  final double? longitude;
+  ///
+  final double? latitude;
 }
 
 /// contains the ticket information being displayed on the ui

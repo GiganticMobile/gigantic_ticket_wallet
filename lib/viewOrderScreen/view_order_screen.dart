@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gigantic_ticket_wallet/viewOrderScreen/event_schedule_view.dart';
 import 'package:gigantic_ticket_wallet/viewOrderScreen/ticket_view.dart';
 import 'package:gigantic_ticket_wallet/viewOrderScreen/view_order_screen_notifier.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// displays general information about an order and the related event
 class ViewOrderScreen extends ConsumerWidget {
@@ -24,7 +26,7 @@ class ViewOrderScreen extends ConsumerWidget {
               },
               icon: const Icon(Icons.arrow_back),
             ),
-            title: const Text('123-456-789'),
+            title: Text(order.valueOrNull?.orderReference ?? ''),
           ),
         body: ListView(children: [
 
@@ -70,6 +72,8 @@ class ViewOrderScreen extends ConsumerWidget {
 
           VenueInfo(
             venueAddress: order.valueOrNull?.event.venue.address ?? '',
+            venueLongitude: order.valueOrNull?.event.venue.longitude,
+            venueLatitude: order.valueOrNull?.event.venue.latitude,
             venueInfo: order.valueOrNull?.event.venue.description ?? '',
           ),
 
@@ -141,13 +145,16 @@ class EventInfo extends StatelessWidget {
 
         Text(_eventInfo),
 
-        Container(
-          height: 200,
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-            color: Colors.cyanAccent,
-            borderRadius: BorderRadius.circular(4),),
-        ),
+          Center(
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              child: CachedNetworkImage(
+                imageUrl: _eventImage,
+                placeholder: (context, url) => Image.asset('assets/no_image.jpg'),
+                errorWidget: (context, url, error) => Image.asset('assets/no_image.jpg'),
+              ),
+            ),
+          ),
       ],),
     );
   }
@@ -158,10 +165,18 @@ class VenueInfo extends StatelessWidget {
   /// constructor
   const VenueInfo({
     required String venueAddress,
+    required double? venueLongitude,
+    required double? venueLatitude,
     required String venueInfo,
-    super.key,}) : _venueAddress = venueAddress, _venueInfo = venueInfo;
+    super.key,}) :
+        _venueAddress = venueAddress,
+        _venueLongitude = venueLongitude,
+        _venueLatitude = venueLatitude,
+        _venueInfo = venueInfo;
 
   final String _venueAddress;
+  final double? _venueLongitude;
+  final double? _venueLatitude;
   final String _venueInfo;
 
   @override
@@ -175,7 +190,15 @@ class VenueInfo extends StatelessWidget {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
 
         //address of the venue
-        Text(_venueAddress),
+          TextButton(onPressed: () async {
+            if (_venueLongitude != null && _venueLatitude != null) {
+              if (await canLaunchUrl(Uri.parse('https://www.google.com/maps'))) {
+                final googleUrl =
+                    'https://www.google.com/maps/place/$_venueLatitude, $_venueLongitude';
+                await launchUrl(Uri.parse(googleUrl));
+              }
+            }
+          }, child: Text(_venueAddress),),
 
         Text(_venueInfo),
       ],),

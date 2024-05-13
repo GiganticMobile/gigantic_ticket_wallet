@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gigantic_ticket_wallet/orderScreen/order_item.dart';
@@ -47,62 +48,75 @@ class OrderScreen extends StatelessWidget {
 }
 
 /// this displays a list of orders
-class OrderList extends ConsumerWidget {
+class OrderList extends ConsumerStatefulWidget {
   /// constructor
   const OrderList({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _OrderListState createState() => _OrderListState();
+}
 
+class _OrderListState extends ConsumerState<OrderList> {
+
+  @override
+  void initState() {
+    super.initState();
+    Future(() {
+      ref.read(orderScreenNotifierProvider.notifier).getOrders();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final orders = ref.watch(orderScreenNotifierProvider);
 
     return SingleChildScrollView(
       child: Column(
         children: [
-        const Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(8),
-              child: Text('Upcoming',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,),),
-            ),
-          ],
-        ),
+          const Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8),
+                child: Text('Upcoming',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,),),
+              ),
+            ],
+          ),
 
-        SizedBox(
-          height: 440,
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: orders.valueOrNull?.length ?? 0,
-            itemBuilder: (BuildContext context, int index) {
-              return OrderListItem(order: orders.valueOrNull![index],);
-            },),
-        ),
+          SizedBox(
+            height: 440,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: orders.valueOrNull?.length ?? 0,
+              itemBuilder: (BuildContext context, int index) {
+                return OrderListItem(order: orders.valueOrNull![index],);
+              },),
+          ),
 
-        const Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(8),
-              child: Text('Past',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,),),
-            ),
-          ],
-        ),
+          const Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8),
+                child: Text('Past',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,),),
+              ),
+            ],
+          ),
 
-        SizedBox(
-          height: 300,
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: orders.valueOrNull?.length ?? 0,
-            itemBuilder: (BuildContext context, int index) {
-              return PastOrderItem(order: orders.valueOrNull![index],);
-            },),
-        ),
-      ],),
+          SizedBox(
+            height: 300,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: orders.valueOrNull?.length ?? 0,
+              itemBuilder: (BuildContext context, int index) {
+                return PastOrderItem(order: orders.valueOrNull![index],);
+              },),
+          ),
+        ],),
     );
   }
 }
@@ -180,12 +194,15 @@ class _OrderListItemState extends State<OrderListItem>
                     ],),
                 ],),
             ),
-            Container(
-              height: 200,
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: Colors.cyanAccent,
-                borderRadius: BorderRadius.circular(4),),
+            Center(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                child: CachedNetworkImage(
+                  imageUrl: widget._order.imageUrl,
+                  placeholder: (context, url) => Image.asset('assets/no_image.jpg'),
+                  errorWidget: (context, url, error) => Image.asset('assets/no_image.jpg'),
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 8),

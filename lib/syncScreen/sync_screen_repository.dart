@@ -52,6 +52,8 @@ class SyncScreenRepository extends SyncScreenRepositoryInterface {
             venueAddress: order.event.venueAddress,
             venueCity: order.event.venueCity,
             venuePostcode: order.event.venuePostcode,
+            venueLongitude: order.event.venueLongitude,
+            venueLatitude: order.event.venueLatitude,
             venueType: order.event.venueType,
             campaignImage: order.event.campaignImage,
             eventImage: order.event.eventImage,

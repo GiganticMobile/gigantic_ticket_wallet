@@ -89,7 +89,11 @@ class ViewOrderScreenRepository extends ViewOrderScreenRepositoryInterface {
         endTime: endTime,
         description: '',
         image: event?.campaignImage ?? '',
-        venue: VenueInfo(address: venueAddress, description: ''),
+        venue: VenueInfo(
+            address: venueAddress,
+            description: '',
+            longitude: event?.venueLongitude,
+            latitude: event?.venueLatitude,),
       ), tickets: tickets.map((ticket) {
 
         final DateTime showAt;

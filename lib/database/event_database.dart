@@ -32,6 +32,16 @@ class EventDatabase extends EventDatabaseInterface {
       promoter: event.promoter,
     );
 
+    final existingOrder = await getEventByOrder(event.order);
+
+    //this ensures that each order only has one event
+    //and does not contain duplicates of the same event.
+    if (existingOrder != null) {
+      await (_database.delete(_database.event)
+        ..where((event) => event.id.equals(existingOrder.id)))
+        .go();
+    }
+
     await _database.into(_database.event).insertOnConflictUpdate(inserting);
   }
 

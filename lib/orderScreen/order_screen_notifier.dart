@@ -11,8 +11,17 @@ class OrderScreenNotifier extends _$OrderScreenNotifier {
 
   @override
   FutureOr<List<OrderItem>> build() async {
+    return List.empty();
+  }
+
+  /// get orders from repository
+  Future<void> getOrders() async {
     final repository = GetIt.I.get<OrderScreenRepositoryInterface>();
 
-    return repository.getOrders();
+    state = const AsyncLoading();
+
+    final orders = await repository.getOrders();
+
+    state = AsyncData(orders);
   }
 }

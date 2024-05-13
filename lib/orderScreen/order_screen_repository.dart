@@ -38,7 +38,7 @@ class OrderScreenRepository extends OrderScreenRepositoryInterface {
 
       orderItemList.add(OrderItem(
         id: order.id,
-        imageUrl: databaseEvent?.eventImage ?? '',
+        imageUrl: databaseEvent?.campaignImage ?? '',
         eventName: databaseEvent?.title ?? '',
         eventStartDate: eventStartDate,
         venueLocation: databaseEvent?.venueAddress ?? '',
