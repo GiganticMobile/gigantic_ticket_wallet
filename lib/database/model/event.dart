@@ -1,5 +1,7 @@
 import 'package:drift/drift.dart';
+import 'package:gigantic_ticket_wallet/database/database.dart';
 import 'package:gigantic_ticket_wallet/database/model/order.dart';
+import 'package:gigantic_ticket_wallet/network/model/event.dart' as api;
 
 /// event model for the database
 class Event extends Table {
@@ -45,5 +47,31 @@ class Event extends Table {
   TextColumn get restriction => text()();
   ///
   TextColumn get promoter => text()();
+
+  ///this is used to convert the order information provided by the
+  ///api into an event that can be stored in the database
+  static EventData fromNetwork(String orderId, api.Event event) {
+    return EventData(
+      id: 0,
+      order: orderId,
+      presenter: event.presenter,
+      title: event.title,
+      subTitle: event.subTitle,
+      doorsOpenTime: event.doorsOpenTime.millisecondsSinceEpoch,
+      startTime: event.startTime.millisecondsSinceEpoch,
+      endTime: event.endTime.millisecondsSinceEpoch,
+      seatingPlan: event.seatingPlan,
+      venue: event.venue,
+      venueAddress: event.venueAddress,
+      venueCity: event.venueCity,
+      venuePostcode: event.venuePostcode,
+      venueLongitude: event.venueLongitude,
+      venueLatitude: event.venueLatitude,
+      venueType: event.venueType,
+      campaignImage: event.campaignImage,
+      eventImage: event.eventImage,
+      restriction: event.restriction,
+      promoter: event.promoter,);
+  }
 
 }

@@ -1,5 +1,7 @@
 import 'package:drift/drift.dart';
+import 'package:gigantic_ticket_wallet/database/database.dart';
 import 'package:gigantic_ticket_wallet/database/model/order.dart';
+import 'package:gigantic_ticket_wallet/network/model/ticket.dart' as api;
 
 /// ticket model for database
 class Ticket extends Table {
@@ -54,4 +56,36 @@ class Ticket extends Table {
 
   @override
   Set<Column> get primaryKey => {id};
+
+  ///this is used to convert the ticket information provided by the
+  ///api into a ticket that can be stored in the database
+  static TicketData fromNetwork(String orderId, api.Ticket ticket) {
+    return TicketData(
+      id: ticket.id,
+      order: orderId,
+      barcode: ticket.barcode,
+      heading: ticket.heading,
+      label: ticket.label,
+      value: ticket.value,
+      bookingFee: ticket.bookingFee,
+      ticketCancelledDate:
+      ticket.ticketCancelledDate?.millisecondsSinceEpoch,
+      entranceInfo: ticket.entranceInfo,
+      entranceArea: ticket.entranceArea,
+      entranceAisle: ticket.entranceAisle,
+      entranceGate: ticket.entranceGate,
+      entranceCodes: ticket.entranceCodes,
+      entrancePassageway: ticket.entrancePassageway,
+      entranceTurnstiles: ticket.entranceTurnstiles,
+      entranceStand: ticket.entranceStand,
+      transferTo: ticket.transferTo,
+      transferTimestamp:
+      ticket.transferTimestamp?.millisecondsSinceEpoch,
+      doorsOpenTimeOverride:
+      ticket.doorsTimeOverride?.millisecondsSinceEpoch,
+      eventTimeOverride:
+      ticket.eventTimeOverride?.millisecondsSinceEpoch,
+      endTimeOverride: ticket.endTimeOverride?.millisecondsSinceEpoch,
+    );
+  }
 }
