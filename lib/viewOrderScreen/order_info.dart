@@ -91,6 +91,8 @@ class TicketInfo {
     this.entranceCodes,
     this.entrancePassageway,
     this.entranceTurnstiles,
+    this.cancelledDate,
+    this.transferredTo,
   });
 
   ///
@@ -125,4 +127,8 @@ class TicketInfo {
   final String? entrancePassageway;
   /// this can be null as not all tickets will have this information
   final String? entranceTurnstiles;
+  /// this can be null if the ticket was not cancelled
+  final DateTime? cancelledDate;
+  /// this can be null is ticket was not transferred
+  final String? transferredTo;
 }

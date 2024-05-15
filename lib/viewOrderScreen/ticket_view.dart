@@ -156,7 +156,10 @@ class TicketWidget extends StatelessWidget {
 
           BarcodeView(
             barcode: _ticketInfo.barcode,
-            viewAt: _ticketInfo.showAt,),
+            viewAt: _ticketInfo.showAt,
+            cancelledOn: _ticketInfo.cancelledDate,
+            transferredTo: _ticketInfo.transferredTo,
+          ),
 
           Text(_ticketInfo.heading,
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),

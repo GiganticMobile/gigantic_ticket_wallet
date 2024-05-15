@@ -104,6 +104,14 @@ class ViewOrderScreenRepository extends ViewOrderScreenRepositoryInterface {
           showAt = DateTime.now();
         }
 
+        final DateTime? cancelledDateTime;
+        if (ticket.ticketCancelledDate != null) {
+          cancelledDateTime =
+              DateTime.fromMillisecondsSinceEpoch(ticket.ticketCancelledDate!);
+        } else {
+          cancelledDateTime = null;
+        }
+
       return TicketInfo(
         barcode: ticket.barcode,
         showAt: showAt,
@@ -121,6 +129,8 @@ class ViewOrderScreenRepository extends ViewOrderScreenRepositoryInterface {
         entranceCodes: ticket.entranceCodes,
         entrancePassageway: ticket.entrancePassageway,
         entranceTurnstiles: ticket.entranceTurnstiles,
+        cancelledDate: cancelledDateTime,
+        transferredTo: ticket.transferTo,
       );
     }).toList(),
     );

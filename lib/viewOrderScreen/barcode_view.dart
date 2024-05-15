@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:gigantic_ticket_wallet/utils/date_utils.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 ///this handles how a barcode is displayed
@@ -10,11 +11,22 @@ class BarcodeView extends StatefulWidget {
   const BarcodeView({
     required String barcode,
     required DateTime viewAt,
-    super.key,}) : _barcode = barcode, _viewAt = viewAt;
+    required DateTime? cancelledOn,
+    required String? transferredTo,
+    super.key,}) :
+        _barcode = barcode,
+        _viewAt = viewAt,
+        _cancelledOn = cancelledOn,
+        _transferredTo = transferredTo;
 
   final String _barcode;
   ///this is the time in which the user can view the barcode.
   final DateTime _viewAt;
+  /// the time the ticket was called if the value is null then the ticket
+  /// was not called
+  final DateTime? _cancelledOn;
+  /// the name of the user the ticket was transferred to
+  final String? _transferredTo;
 
   @override
   State<BarcodeView> createState() => _BarcodeViewState();
@@ -39,16 +51,23 @@ class _BarcodeViewState extends State<BarcodeView> {
   }
 
   void _checkDate() {
-    if (widget._viewAt.compareTo(DateTime.now()) <= 0) {
+    if (widget._cancelledOn != null || widget._transferredTo != null) {
+      //the ticket was either transferred or cancelled so prevent
+      //user from seeing the barcode.
       _timer.cancel();
-      setState(() {
-        _canViewBarcode = true;
-      });
+      _canViewBarcode = false;
     } else {
-      if (_canViewBarcode == true) {
+      if (widget._viewAt.compareTo(DateTime.now()) <= 0) {
+        _timer.cancel();
         setState(() {
-          _canViewBarcode = false;
+          _canViewBarcode = true;
         });
+      } else {
+        if (_canViewBarcode == true) {
+          setState(() {
+            _canViewBarcode = false;
+          });
+        }
       }
     }
   }
@@ -65,18 +84,38 @@ class _BarcodeViewState extends State<BarcodeView> {
     return Stack(
       alignment: Alignment.center,
       children: [
-      AnimatedOpacity(
-        opacity: _canViewBarcode ? 1.0 : 0.0,
-        duration: const Duration(seconds: 1),
-        child: QRCodeView(barcode: widget._barcode,),
-      ),
+        AnimatedOpacity(
+          opacity: widget._cancelledOn == null
+              && widget._transferredTo == null
+              && _canViewBarcode == true ? 1.0 : 0.0,
+          duration: const Duration(seconds: 1),
+          child: QRCodeView(barcode: widget._barcode,),
+        ),
 
-      AnimatedOpacity(
-        opacity: !_canViewBarcode ? 1.0 : 0.0,
-        duration: const Duration(seconds: 1),
-        child: const EmptyQRCode(),
-      ),
-    ],);
+        AnimatedOpacity(
+          opacity: widget._cancelledOn == null
+              && widget._transferredTo == null
+              && _canViewBarcode == false ? 1.0 : 0.0,
+          duration: const Duration(seconds: 1),
+          child: const EmptyQRCode(),
+        ),
+
+        AnimatedOpacity(
+          opacity:
+          widget._cancelledOn == null && widget._transferredTo != null
+              ? 1.0 : 0.0,
+          duration: const Duration(seconds: 1),
+          child: TransferredQRCode(transferredTo: widget._transferredTo),
+        ),
+
+        AnimatedOpacity(
+          opacity:
+          widget._cancelledOn != null && widget._transferredTo == null
+              ? 1.0 : 0.0,
+          duration: const Duration(seconds: 1),
+          child: CancelledQRCode(cancelledOn: widget._cancelledOn),
+        ),
+      ],);
   }
 }
 
@@ -99,6 +138,72 @@ class EmptyQRCode extends StatelessWidget {
       child: const Center(
         child: Text('QR code will be available closer to the event',
           style: TextStyle(fontSize: 18,),
+          textAlign: TextAlign.center,),
+      ),);
+  }
+}
+
+/// this is a widget that is displayed when the qr code
+/// is hidden.
+class CancelledQRCode extends StatelessWidget {
+  /// constructor
+  const CancelledQRCode({required DateTime? cancelledOn, super.key})
+      : _cancelledOn = cancelledOn;
+
+  final DateTime? _cancelledOn;
+
+  @override
+  Widget build(BuildContext context) {
+
+    if (_cancelledOn == null) {
+      return const SizedBox.shrink();
+    }
+
+    final cancelledTime = CommonDateUtils.convertDateTimeToString(_cancelledOn);
+
+    return Container(
+      width: 220,
+      height: 220,
+      margin: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: Theme.of(context).colorScheme.error),
+      ),
+      child: Center(
+        child: Text('Ticket cancelled.\n $cancelledTime',
+          style: const TextStyle(fontSize: 18,),
+          textAlign: TextAlign.center,),
+      ),);
+  }
+}
+
+/// this is a widget that is displayed when the qr code
+/// is hidden.
+class TransferredQRCode extends StatelessWidget {
+  /// constructor
+  const TransferredQRCode({required String? transferredTo, super.key})
+      : _transferredTo = transferredTo;
+
+  final String? _transferredTo;
+
+  @override
+  Widget build(BuildContext context) {
+
+    if (_transferredTo == null) {
+      return const SizedBox.shrink();
+    }
+
+    return Container(
+      width: 220,
+      height: 220,
+      margin: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: Theme.of(context).colorScheme.error),
+      ),
+      child: Center(
+        child: Text('Ticket transferred to $_transferredTo',
+          style: const TextStyle(fontSize: 18,),
           textAlign: TextAlign.center,),
       ),);
   }
