@@ -56,13 +56,13 @@ void main() {
     expect(event.title, expectedTitle, reason: 'unexpected event title');
     expect(event.subTitle, expectedSubTitle,
         reason: 'unexpected event sub title',);
-    expect(event.doorsOpenTime.millisecondsSinceEpoch, expectedStartTime * 1000,
+    expect(event.doorsOpenTime?.millisecondsSinceEpoch, expectedStartTime * 1000,
       reason: 'unexpected event start time',);
     //startTimeJson is in seconds so converted to
     // milliseconds by multiplying by 1000
-    expect(event.startTime.millisecondsSinceEpoch, expectedEventTime * 1000,
+    expect(event.startTime?.millisecondsSinceEpoch, expectedEventTime * 1000,
         reason: 'unexpected event start time',);
-    expect(event.endTime.millisecondsSinceEpoch, expectedEndTime * 1000,
+    expect(event.endTime?.millisecondsSinceEpoch, expectedEndTime * 1000,
         reason: 'unexpected event end time',);
     expect(event.seatingPlan, expectedSeatingPlan,
         reason: 'unexpected event seating plan',);

@@ -18,11 +18,14 @@ class Event extends Table {
   ///
   TextColumn get subTitle => text()();
   ///time in millisecondsSinceEpoch
-  IntColumn get doorsOpenTime => integer()();
+  ///not all events will have this time
+  IntColumn get doorsOpenTime => integer().nullable()();
   ///time in millisecondsSinceEpoch
-  IntColumn get startTime => integer()();
+  ///not all events will have this time
+  IntColumn get startTime => integer().nullable()();
   ///time in millisecondsSinceEpoch
-  IntColumn get endTime => integer()();
+  ///not all events will have this time
+  IntColumn get endTime => integer().nullable()();
   ///
   TextColumn get seatingPlan => text()();
   ///
@@ -57,9 +60,9 @@ class Event extends Table {
       presenter: event.presenter,
       title: event.title,
       subTitle: event.subTitle,
-      doorsOpenTime: event.doorsOpenTime.millisecondsSinceEpoch,
-      startTime: event.startTime.millisecondsSinceEpoch,
-      endTime: event.endTime.millisecondsSinceEpoch,
+      doorsOpenTime: event.doorsOpenTime?.millisecondsSinceEpoch,
+      startTime: event.startTime?.millisecondsSinceEpoch,
+      endTime: event.endTime?.millisecondsSinceEpoch,
       seatingPlan: event.seatingPlan,
       venue: event.venue,
       venueAddress: event.venueAddress,

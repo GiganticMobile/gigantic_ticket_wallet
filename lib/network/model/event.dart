@@ -54,11 +54,23 @@ class Event {
       this.title = title;
       this.subTitle = subTitle;
       final doorsOpenTime = int.tryParse(startTime) ?? 0;
-      this.doorsOpenTime = CommonDateUtils.getDateFromInt(doorsOpenTime);
+      if (doorsOpenTime != 0) {
+        this.doorsOpenTime = CommonDateUtils.getDateFromInt(doorsOpenTime);
+      } else {
+        this.doorsOpenTime = null;
+      }
       final eventStartTime = int.tryParse(eventTime) ?? 0;
-      this.startTime = CommonDateUtils.getDateFromInt(eventStartTime);
+      if (eventStartTime != 0) {
+        this.startTime = CommonDateUtils.getDateFromInt(eventStartTime);
+      } else {
+        this.startTime = null;
+      }
       final eventEndTime = int.tryParse(endTime) ?? 0;
-      this.endTime = CommonDateUtils.getDateFromInt(eventEndTime);
+      if (eventEndTime != 0) {
+        this.endTime = CommonDateUtils.getDateFromInt(eventEndTime);
+      } else {
+        this.endTime = null;
+      }
       this.seatingPlan = seatingPlan;
       this.venue = venue;
       this.venueAddress = venueAddress;
@@ -87,11 +99,11 @@ class Event {
   ///
   late final String subTitle;
   ///
-  late final DateTime doorsOpenTime;
+  late final DateTime? doorsOpenTime;
   ///
-  late final DateTime startTime;
+  late final DateTime? startTime;
   ///
-  late final DateTime endTime;
+  late final DateTime? endTime;
   ///
   late final String seatingPlan;
   ///

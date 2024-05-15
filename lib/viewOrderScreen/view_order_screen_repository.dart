@@ -41,7 +41,7 @@ class ViewOrderScreenRepository extends ViewOrderScreenRepositoryInterface {
     final String eventStartDate;
     if (event != null) {
       final eventDateTime =
-      DateTime.fromMillisecondsSinceEpoch(event.doorsOpenTime);
+      DateTime.fromMillisecondsSinceEpoch(event.doorsOpenTime ?? 0);
 
       eventStartDate =
           CommonDateUtils.convertDateTimeToLongDateString(eventDateTime);
@@ -49,34 +49,28 @@ class ViewOrderScreenRepository extends ViewOrderScreenRepositoryInterface {
       eventStartDate = '';
     }
 
-    final String doorsOpenTime;
-    if (event != null) {
-      final doorOpenDateTime =
-      DateTime.fromMillisecondsSinceEpoch(event.doorsOpenTime);
-
-      doorsOpenTime = CommonDateUtils.convertTimeToString(doorOpenDateTime);
+    final DateTime? doorsOpenTime;
+    if (event != null && event.doorsOpenTime != null) {
+      doorsOpenTime =
+      DateTime.fromMillisecondsSinceEpoch(event.doorsOpenTime!);
     } else {
-      doorsOpenTime = '';
+      doorsOpenTime = null;
     }
 
-    final String startTime;
-    if (event != null) {
-      final startDateTime =
-      DateTime.fromMillisecondsSinceEpoch(event.startTime);
-
-      startTime = CommonDateUtils.convertTimeToString(startDateTime);
+    final DateTime? startTime;
+    if (event != null && event.startTime != null) {
+      startTime =
+      DateTime.fromMillisecondsSinceEpoch(event.startTime!);
     } else {
-      startTime = '';
+      startTime = null;
     }
 
-    final String endTime;
-    if (event != null) {
-      final endDateTime =
-      DateTime.fromMillisecondsSinceEpoch(event.endTime);
-
-      endTime = CommonDateUtils.convertTimeToString(endDateTime);
+    final DateTime? endTime;
+    if (event != null && event.endTime != null) {
+      endTime =
+      DateTime.fromMillisecondsSinceEpoch(event.endTime!);
     } else {
-      endTime = '';
+      endTime = null;
     }
 
     return OrderInfo(

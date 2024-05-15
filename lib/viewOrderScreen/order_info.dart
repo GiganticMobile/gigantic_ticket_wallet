@@ -38,11 +38,11 @@ class EventInfo {
   /// this is the event date in day / month / year format
   final String startDate;
   /// this only the time not date
-  final String doorsOpenTime;
+  final DateTime? doorsOpenTime;
   /// this only the time not date
-  final String startTime;
+  final DateTime? startTime;
   /// this only the time not date
-  final String endTime;
+  final DateTime? endTime;
   ///
   final String description;
   ///this is a promotional image of the event

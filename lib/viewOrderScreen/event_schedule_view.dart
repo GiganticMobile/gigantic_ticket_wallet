@@ -14,9 +14,16 @@ class EventScheduleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 130,
-      child: CustomPaint(
-        painter: EventSchedulePainter(_schedule),
+      height: 150,
+      //this prevents the schedule from overlapping with other widgets
+      child: SingleChildScrollView(
+        child: SizedBox(
+          //this creates a box that hold the full schedule
+          height: (55 * _schedule.length).toDouble(),
+          child: CustomPaint(
+            painter: EventSchedulePainter(_schedule),
+          ),
+        ),
       ),
     );
   }
@@ -41,7 +48,7 @@ class EventSchedulePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, ui.Size size) {
 
-    const startLocation = Offset(25, 15);
+    const startLocation = Offset(25, 20);
 
     _schedule.asMap().forEach((key, value) {
       final Offset location;
@@ -67,7 +74,7 @@ class EventSchedulePainter extends CustomPainter {
         final path = Path()
           ..moveTo(location.dx, location.dy + 15)
 
-          ..lineTo(location.dx, location.dy + 35);
+          ..lineTo(location.dx, location.dy + 40);
 
         canvas.drawPath(path, _paint);
       }
@@ -78,7 +85,7 @@ class EventSchedulePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+    return true;
   }
 
   void _drawScheduleItem(Canvas canvas, Offset location, ScheduleItem scheduleItem) {

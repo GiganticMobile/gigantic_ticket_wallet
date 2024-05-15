@@ -25,16 +25,11 @@ class OrderScreenRepository extends OrderScreenRepositoryInterface {
     for (final order in databaseOrders) {
       final databaseEvent = await _eventDatabase.getEventByOrder(order.id);
 
-      final String eventStartDate;
-      if (databaseEvent != null) {
-        final eventDateTime =
-        DateTime.fromMillisecondsSinceEpoch(databaseEvent.doorsOpenTime);
+      final eventDateTime =
+      DateTime.fromMillisecondsSinceEpoch(order.startTime);
 
-        eventStartDate =
-            CommonDateUtils.convertDateTimeToLongDateString(eventDateTime);
-      } else {
-        eventStartDate = '';
-      }
+      final eventStartDate =
+      CommonDateUtils.convertDateTimeToLongDateString(eventDateTime);
 
       orderItemList.add(OrderItem(
         id: order.id,

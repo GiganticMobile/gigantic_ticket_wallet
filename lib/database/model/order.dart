@@ -26,7 +26,7 @@ class Order extends Table {
     return OrderData(
       id: order.id,
       reference: order.orderReference,
-      startTime: order.event.doorsOpenTime.millisecondsSinceEpoch,
+      startTime: order.event.doorsOpenTime?.millisecondsSinceEpoch ?? 0,
       hasRefundPlan: order.hasRefundPlan,
     );
   }

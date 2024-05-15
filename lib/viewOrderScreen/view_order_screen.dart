@@ -16,6 +16,30 @@ class ViewOrderScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final orderId = GoRouterState.of(context).extra! as String;
     final order = ref.watch(ViewOrderScreenNotifierProvider(orderId));
+
+    final schedule = List<ScheduleItem>.empty(growable: true);
+
+    if (order.valueOrNull?.event.doorsOpenTime != null) {
+      schedule.add(ScheduleItem(
+        title: 'Gate',
+        time: order.valueOrNull?.event.doorsOpenTime ?? DateTime.now(),
+      ),);
+    }
+
+    if (order.valueOrNull?.event.startTime != null) {
+      schedule.add(ScheduleItem(
+        title: 'Start',
+        time: order.valueOrNull?.event.startTime ?? DateTime.now().add(Duration(minutes: 1)),
+        //delay: DateTime.now().add(const Duration(minutes: 3)),
+      ),);
+    }
+
+    if (order.valueOrNull?.event.endTime != null) {
+      schedule.add(ScheduleItem(
+        title: 'End',
+        time: order.valueOrNull?.event.endTime ?? DateTime.now().add(Duration(minutes: 2)),
+      ),);
+    }
     
     return SafeArea(
         child: Scaffold(
@@ -46,21 +70,7 @@ class ViewOrderScreen extends ConsumerWidget {
 
           const Divider(color: Colors.green,),
 
-          EventScheduleView(schedule: [
-            ScheduleItem(
-              title: 'Gate',
-              time: DateTime.now(),
-            ),
-            ScheduleItem(
-              title: 'Start',
-              time: DateTime.now().add(const Duration(minutes: 2)),
-              delay: DateTime.now().add(const Duration(minutes: 3)),
-            ),
-            ScheduleItem(
-              title: 'End',
-              time: DateTime.now().add(const Duration(minutes: 4)),
-            ),
-          ],),
+          EventScheduleView(schedule: schedule,),
 
           const Divider(color: Colors.green,),
 
