@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:gigantic_ticket_wallet/network/common/Auth.dart';
+import 'package:gigantic_ticket_wallet/network/common/auth.dart';
 
 /// common values used when querying the api
 class APIConstants {
@@ -8,7 +8,7 @@ class APIConstants {
   static Dio getInstance() {
     final dio = Dio()
     ..options = BaseOptions(headers: {
-      'Authorization': Auth.getAuthToken(),
+      'Authorization': Auth.token,
     },
       preserveHeaderCase: true,
       baseUrl: 'https://www.gigantic.com/wallet_app/',

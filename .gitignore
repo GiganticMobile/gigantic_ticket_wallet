@@ -49,3 +49,5 @@ app.*.map.json
 /lib/accountScreen/account_screen_notifier.g.dart
 /lib/orderScreen/order_screen_notifier.g.dart
 /lib/viewOrderScreen/view_order_screen_notifier.g.dart
+/lib/network/common/auth.g.dart
+/.env
