@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gigantic_ticket_wallet/common/app_navigation_bar.dart';
 import 'package:gigantic_ticket_wallet/orderScreen/order_item.dart';
 import 'package:gigantic_ticket_wallet/orderScreen/order_screen_notifier.dart';
 import 'package:go_router/go_router.dart';
@@ -12,36 +13,10 @@ class OrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: Scaffold(
-        body: const OrderList(),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: 1,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              label: 'Notifications',),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.event),
-              label: 'Orders',),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_box),
-              label: 'Account',),
-          ],
-          onTap: (index) {
-            if (index != 1) {
-              switch(index) {
-                case 0:
-                  context.push('/Notification');
-                case 1:
-                  context.push('/Order');
-                case 2:
-                  context.push('/Account');
-              }
-            }
-          },
-        ),
+        body: OrderList(),
+        bottomNavigationBar: AppNavigationBar(currentScreen: 1,),
       ),
     );
   }

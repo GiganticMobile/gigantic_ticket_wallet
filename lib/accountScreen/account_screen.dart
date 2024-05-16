@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gigantic_ticket_wallet/accountScreen/account_screen_notifier.dart';
+import 'package:gigantic_ticket_wallet/common/app_navigation_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -44,33 +45,7 @@ class AccountScreen extends StatelessWidget {
               ),
               const LogoutButton(),
             ],),
-            bottomNavigationBar: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                currentIndex: 2,
-                items: const [
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.notifications),
-                      label: 'Notifications',),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.event),
-                      label: 'Orders',),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.account_box),
-                      label: 'Account',),
-                ],
-                onTap: (index) {
-                  if (index != 2) {
-                    switch (index) {
-                      case 0:
-                        context.push('/Notification');
-                      case 1:
-                        context.push('/Order');
-                      case 2:
-                        context.push('/Account');
-                    }
-                  }
-                },
-            ),
+            bottomNavigationBar: const AppNavigationBar(currentScreen: 2,),
         ),
     );
   }

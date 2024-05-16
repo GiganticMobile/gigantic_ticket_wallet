@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:gigantic_ticket_wallet/common/app_navigation_bar.dart';
 
 /// this provides a list of notifications
 class NotificationScreen extends StatelessWidget {
@@ -13,32 +13,7 @@ class NotificationScreen extends StatelessWidget {
         body: ListView(children: const [
           ListTile(title: Text('Notification screen'),),
         ],),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              label: 'Notifications',),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.event),
-              label: 'Orders',),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_box),
-              label: 'Account',),
-          ],
-          onTap: (index) {
-            if (index != 0) {
-              switch (index) {
-                case 0:
-                  context.push('/Notification');
-                case 1:
-                  context.push('/Order');
-                case 2:
-                  context.push('/Account');
-              }
-            }
-          },
-        ),
+        bottomNavigationBar: const AppNavigationBar(currentScreen: 0,),
       ),
     );
   }
