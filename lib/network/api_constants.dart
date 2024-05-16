@@ -8,7 +8,7 @@ class APIConstants {
   static Dio getInstance() {
     final dio = Dio()
     ..options = BaseOptions(headers: {
-      'Authorization': Auth.getAuthToken(),
+      'Authorization': Auth.token,
     },
       preserveHeaderCase: true,
       baseUrl: 'https://www.gigantic.com/wallet_app/',
