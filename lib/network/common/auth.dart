@@ -1,7 +1,15 @@
+import 'dart:convert';
+
+import 'package:envied/envied.dart';
+
+part 'auth.g.dart';
+
 ///handles api authentication
-class Auth {
+@Envied(path: '.env')
+abstract class Auth {
 
   ///generates auth token for api
-  static const String token = 'Basic d2FsbGV0X2FwcDo0aXdkaWo3MjEzJCVxd2Uk';
+  @EnviedField(varName: "API_KEY", defaultValue: "", obfuscate: true)
+  static final String token = utf8.fuse(base64).decode(_Auth.token);
 
 }

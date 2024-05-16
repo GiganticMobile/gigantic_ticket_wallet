@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:gigantic_ticket_wallet/network/common/Auth.dart';
+import 'package:gigantic_ticket_wallet/network/common/auth.dart';
 
 /// common values used when querying the api
 class APIConstants {
