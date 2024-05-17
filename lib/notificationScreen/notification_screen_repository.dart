@@ -30,6 +30,11 @@ class NotificationScreenRepository
     return _database.getNotifications();
   }
 
+  @override
+  Future<void> setAllNotificationsAsRead() {
+    return _database.setAllNotificationsAsRead();
+  }
+
 }
 
 ///
@@ -40,5 +45,9 @@ abstract class NotificationScreenRepositoryInterface {
 
   ///
   Future<List<NotificationData>> getAllNotifications();
+
+  /// when the user goes on the notifications screen the app
+  ///should mark all notifications as read
+  Future<void> setAllNotificationsAsRead();
 
 }

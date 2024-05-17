@@ -34,4 +34,11 @@ class NotificationScreenNotifier extends _$NotificationScreenNotifier {
     state = AsyncData(notifications);
   }
 
+  ///mark all notifications as read
+  Future<void> setAllNotificationsAsRead() async {
+    final repository = GetIt.I.get<NotificationScreenRepositoryInterface>();
+
+    await repository.setAllNotificationsAsRead();
+  }
+
 }

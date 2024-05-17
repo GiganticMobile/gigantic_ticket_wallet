@@ -52,3 +52,4 @@ app.*.map.json
 /lib/network/common/auth.g.dart
 /.env
 /lib/notificationScreen/notification_screen_notifier.g.dart
+/lib/common/app_navigation_bar_notifier.g.dart

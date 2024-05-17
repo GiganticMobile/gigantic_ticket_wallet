@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:gigantic_ticket_wallet/accountScreen/account_screen_repository.dart';
+import 'package:gigantic_ticket_wallet/common/app_navigation_bar_repository.dart';
 import 'package:gigantic_ticket_wallet/database/account_database.dart';
 import 'package:gigantic_ticket_wallet/database/database.dart';
 import 'package:gigantic_ticket_wallet/database/event_database.dart';
@@ -162,6 +163,11 @@ void setupDependencyInjection() {
   GetIt.I.registerLazySingleton<NotificationScreenRepositoryInterface>(() {
     final database = GetIt.I.get<NotificationDatabaseInterface>();
     return NotificationScreenRepository(database: database);
+  });
+
+  GetIt.I.registerLazySingleton<AppNavigationBarRepositoryInterface>(() {
+    final database = GetIt.I.get<NotificationDatabaseInterface>();
+    return AppNavigationBarRepository(database: database);
   });
 
   //utils

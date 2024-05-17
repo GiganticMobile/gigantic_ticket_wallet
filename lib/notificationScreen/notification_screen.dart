@@ -32,6 +32,8 @@ class _NotificationListState extends ConsumerState<NotificationList> {
     super.initState();
     Future(() {
       ref.read(notificationScreenNotifierProvider.notifier).getNotifications();
+      ref.read(notificationScreenNotifierProvider.notifier)
+          .setAllNotificationsAsRead();
     });
   }
 
