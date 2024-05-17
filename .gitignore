@@ -51,3 +51,4 @@ app.*.map.json
 /lib/viewOrderScreen/view_order_screen_notifier.g.dart
 /lib/network/common/auth.g.dart
 /.env
+/lib/notificationScreen/notification_screen_notifier.g.dart
