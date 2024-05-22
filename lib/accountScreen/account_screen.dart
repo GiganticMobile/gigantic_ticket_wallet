@@ -103,6 +103,9 @@ class NotificationSettingsState extends ConsumerState<NotificationSettings> {
                     Switch(value: _allowAllNotifications, onChanged: (value) {
                       setState(() {
                         _allowAllNotifications = value;
+                        if (value) {
+                          _allowOnlyUpdates = value;
+                        }
                         ref.read(accountScreenNotifierProvider.notifier)
                             .setAllowAllNotificationsOption(isAllowed: value);
                       });

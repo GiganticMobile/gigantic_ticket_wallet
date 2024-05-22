@@ -1,16 +1,14 @@
-import 'package:gigantic_ticket_wallet/database/account_database.dart';
 import 'package:gigantic_ticket_wallet/database/login_database.dart';
+import 'package:gigantic_ticket_wallet/notifications/notification_settings.dart';
 
 ///
 class AccountScreenRepository extends AccountScreenRepositoryInterface{
   /// constructor
   AccountScreenRepository({
     required LoginDatabaseInterface loginDatabase,
-    required AccountDatabaseInterface database,
-  }) : _loginDatabase = loginDatabase, _database = database;
+  }) : _loginDatabase = loginDatabase;
 
   final LoginDatabaseInterface _loginDatabase;
-  final AccountDatabaseInterface _database;
 
   @override
   Future<void> logout() async {
@@ -19,22 +17,30 @@ class AccountScreenRepository extends AccountScreenRepositoryInterface{
 
   @override
   Future<bool> getAllowedNotificationsOption() {
-    return _database.getAllowedNotificationsOption();
+    return NotificationSettings.getAllowedNotificationsOption();
   }
 
   @override
   Future<bool> getOnlyUpdatesOption() {
-    return _database.getOnlyUpdatesOption();
+    return NotificationSettings.getOnlyUpdatesOption();
   }
 
   @override
-  Future<void> setAllowAllNotificationsOption({required bool isAllowed}) {
-    return _database.setAllowAllNotificationsOption(isAllowed: isAllowed);
+  Future<void> setAllowAllNotificationsOption({required bool isAllowed}) async {
+    if (isAllowed) {
+      await NotificationSettings
+          .setAllowAllNotificationsOption(isAllowed: isAllowed);
+      await NotificationSettings
+          .setOnlyUpdatesOption(isAllowed: isAllowed);
+    } else {
+      await NotificationSettings
+          .setAllowAllNotificationsOption(isAllowed: isAllowed);
+    }
   }
 
   @override
   Future<void> setOnlyUpdatesOption({required bool isAllowed}) {
-    return _database.setOnlyUpdatesOption(isAllowed: isAllowed);
+    return NotificationSettings.setOnlyUpdatesOption(isAllowed: isAllowed);
   }
 }
 

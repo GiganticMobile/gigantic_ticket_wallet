@@ -1,7 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:gigantic_ticket_wallet/accountScreen/account_screen_repository.dart';
 import 'package:gigantic_ticket_wallet/common/app_navigation_bar_repository.dart';
-import 'package:gigantic_ticket_wallet/database/account_database.dart';
 import 'package:gigantic_ticket_wallet/database/database.dart';
 import 'package:gigantic_ticket_wallet/database/event_database.dart';
 import 'package:gigantic_ticket_wallet/database/login_database.dart';
@@ -16,6 +15,7 @@ import 'package:gigantic_ticket_wallet/network/login_api.dart';
 import 'package:gigantic_ticket_wallet/network/order_api.dart';
 import 'package:gigantic_ticket_wallet/network/verification_api.dart';
 import 'package:gigantic_ticket_wallet/notificationScreen/notification_screen_repository.dart';
+import 'package:gigantic_ticket_wallet/notifications/notification_handler.dart';
 import 'package:gigantic_ticket_wallet/orderScreen/order_screen_repository.dart';
 import 'package:gigantic_ticket_wallet/syncScreen/sync_screen_repository.dart';
 import 'package:gigantic_ticket_wallet/utils/connection_utils.dart';
@@ -36,14 +36,6 @@ void setupDependencyInjection() {
     final sharedPreferences = GetIt.I.get<SharedPreferences>();
 
     return LoginDatabase(prefs: sharedPreferences);
-  });
-
-  GetIt.I.registerLazySingletonAsync<AccountDatabaseInterface>(() async {
-    await GetIt.I.isReady<SharedPreferences>();
-
-    final sharedPreferences = GetIt.I.get<SharedPreferences>();
-
-    return AccountDatabase(prefs: sharedPreferences);
   });
 
   GetIt.I.registerLazySingleton<AppDatabase>(AppDatabase.createDatabase);
@@ -87,17 +79,19 @@ void setupDependencyInjection() {
     return OrderAPI(endPoints: endPoints);
   });
 
+  //notifications
+  GetIt.I.registerLazySingleton<NotificationHandler>(() {
+    final notificationDatabase = GetIt.I.get<NotificationDatabaseInterface>();
+    return NotificationHandler(notificationDatabase: notificationDatabase);
+  });
+
   //app repositories
   GetIt.I.registerLazySingletonAsync<AccountScreenRepositoryInterface>(() async {
     await GetIt.I.isReady<LoginDatabaseInterface>();
     final loginDatabase = GetIt.I.get<LoginDatabaseInterface>();
 
-    await GetIt.I.isReady<AccountDatabaseInterface>();
-    final database = GetIt.I.get<AccountDatabaseInterface>();
-
     return AccountScreenRepository(
-        loginDatabase: loginDatabase,
-        database: database,);
+        loginDatabase: loginDatabase,);
   });
 
   GetIt.I.registerLazySingletonAsync<LoginScreenRepositoryInterface>(() async {
@@ -133,14 +127,14 @@ void setupDependencyInjection() {
     final orderDatabase = GetIt.I.get<OrderDatabaseInterface>();
     final eventDatabase = GetIt.I.get<EventDatabaseInterface>();
     final ticketDatabase = GetIt.I.get<TicketDatabaseInterface>();
-    final notificationDatabase = GetIt.I.get<NotificationDatabaseInterface>();
+    final notificationHandler = GetIt.I.get<NotificationHandler>();
 
     return SyncScreenRepository(
         api: api,
         orderDatabase: orderDatabase,
         eventDatabase: eventDatabase,
         ticketDatabase: ticketDatabase,
-        notificationDatabase: notificationDatabase,
+        notificationHandler: notificationHandler,
     );
   });
 
