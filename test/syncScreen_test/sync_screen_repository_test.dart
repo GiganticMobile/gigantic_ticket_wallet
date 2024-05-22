@@ -7,6 +7,7 @@ import 'package:gigantic_ticket_wallet/database/order_database.dart';
 import 'package:gigantic_ticket_wallet/database/ticket_database.dart';
 import 'package:gigantic_ticket_wallet/network/endpoints/order_end_points.dart';
 import 'package:gigantic_ticket_wallet/network/order_api.dart';
+import 'package:gigantic_ticket_wallet/notifications/notification_handler.dart';
 import 'package:gigantic_ticket_wallet/syncScreen/sync_screen_repository.dart';
 
 void main() {
@@ -29,13 +30,15 @@ void main() {
     final eventDatabase = EventDatabase(database: database);
     final ticketDatabase = TicketDatabase(database: database);
     final notificationDatabase = NotificationDatabase(database: database);
+    final notificationHandler = NotificationHandler(
+        notificationDatabase: notificationDatabase,);
 
     final repository = SyncScreenRepository(
         api: api,
         orderDatabase: orderDatabase,
         eventDatabase: eventDatabase,
         ticketDatabase: ticketDatabase,
-        notificationDatabase: notificationDatabase,
+        notificationHandler: notificationHandler,
     );
 
     await repository.syncOrders();
