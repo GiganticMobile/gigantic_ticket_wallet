@@ -43,6 +43,9 @@ class _NotificationListState extends ConsumerState<NotificationList> {
 
     final state = ref.watch(notificationScreenNotifierProvider);
 
+    /**
+     * Add drag to refresh on this screen.
+     */
     return Scaffold(
       body: ListView.builder(
           itemCount: state.valueOrNull?.length ?? 0,

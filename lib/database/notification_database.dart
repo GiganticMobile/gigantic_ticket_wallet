@@ -47,7 +47,13 @@ class NotificationDatabase extends NotificationDatabaseInterface {
     // if the app needs to know the amount of unread notification
     //then return the unreadNotifications length
 
-    return unreadNotifications.isNotEmpty;
+    // filter out any notification that the the user it not allowed to
+    // see yet.
+    final shownNotifications = unreadNotifications.where(
+    (item) => DateTime.now().compareTo(item.createdAt) >= 0,
+    ).toList();
+
+    return shownNotifications.isNotEmpty;
   }
 
   @override
@@ -55,6 +61,14 @@ class NotificationDatabase extends NotificationDatabaseInterface {
     await (_database.update(_database.notification)
       ..where((notification) => notification.seen.equals(false)))
         .write(const NotificationCompanion(seen: Value(true)));
+  }
+
+  @override
+  Future<List<NotificationData>> getNotificationsByOrder(String orderId) async {
+    final notifications = await (_database.select(_database.notification)
+    ..where((notification) => notification.order.equals(orderId))).get();
+
+    return notifications;
   }
 
 }
@@ -75,5 +89,8 @@ abstract class NotificationDatabaseInterface {
   ///if the user goes on the notification screen then all notifications
   ///should be set as read / seen.
   Future<void> setAllNotificationsAsRead();
+
+  ///get all notifications related to a specific order
+  Future<List<NotificationData>> getNotificationsByOrder(String orderId);
 
 }

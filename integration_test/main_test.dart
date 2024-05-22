@@ -7,6 +7,7 @@ import 'package:gigantic_ticket_wallet/database/account_database.dart';
 import 'package:gigantic_ticket_wallet/database/database.dart';
 import 'package:gigantic_ticket_wallet/database/event_database.dart';
 import 'package:gigantic_ticket_wallet/database/login_database.dart';
+import 'package:gigantic_ticket_wallet/database/notification_database.dart';
 import 'package:gigantic_ticket_wallet/database/order_database.dart';
 import 'package:gigantic_ticket_wallet/database/ticket_database.dart';
 import 'package:gigantic_ticket_wallet/loginScreen/login_screen_repository.dart';
@@ -77,6 +78,10 @@ void setupTestDependencyInjection() {
   GetIt.I.registerLazySingleton<TicketDatabaseInterface>(() {
     final database = GetIt.I.get<AppDatabase>();
     return TicketDatabase(database: database);
+  });
+  GetIt.I.registerLazySingleton<NotificationDatabaseInterface>(() {
+    final database = GetIt.I.get<AppDatabase>();
+    return NotificationDatabase(database: database);
   });
 
   //login api
@@ -149,12 +154,15 @@ void setupTestDependencyInjection() {
     final orderDatabase = GetIt.I.get<OrderDatabaseInterface>();
     final eventDatabase = GetIt.I.get<EventDatabaseInterface>();
     final ticketDatabase = GetIt.I.get<TicketDatabaseInterface>();
+    final notificationDatabase = GetIt.I.get<NotificationDatabaseInterface>();
 
     return SyncScreenRepository(
       api: api,
       orderDatabase: orderDatabase,
       eventDatabase: eventDatabase,
-      ticketDatabase: ticketDatabase,);
+      ticketDatabase: ticketDatabase,
+      notificationDatabase: notificationDatabase,
+    );
   });
 
   GetIt.I.registerLazySingleton<OrderScreenRepositoryInterface>(() {

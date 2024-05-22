@@ -20,14 +20,18 @@ class NotificationScreenRepository
         body: 'This is a test notification',
         type: NotificationType.info,
         seen: false,
-        createdAt: DateTime.now(),);
+        createdAt: DateTime.now().add(const Duration(minutes: 1)),);
 
     await _database.addNotification(notification);
   }
 
   @override
-  Future<List<NotificationData>> getAllNotifications() {
-    return _database.getNotifications();
+  Future<List<NotificationData>> getAllNotifications() async {
+    final allNotifications = await _database.getNotifications();
+    
+    return allNotifications.where(
+            (item) => DateTime.now().compareTo(item.createdAt) >= 0,
+    ).toList();
   }
 
   @override

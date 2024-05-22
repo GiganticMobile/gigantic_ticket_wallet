@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gigantic_ticket_wallet/database/database.dart';
 import 'package:gigantic_ticket_wallet/database/event_database.dart';
+import 'package:gigantic_ticket_wallet/database/notification_database.dart';
 import 'package:gigantic_ticket_wallet/database/order_database.dart';
 import 'package:gigantic_ticket_wallet/database/ticket_database.dart';
 import 'package:gigantic_ticket_wallet/network/endpoints/order_end_points.dart';
@@ -27,12 +28,15 @@ void main() {
     final orderDatabase = OrderDatabase(database: database);
     final eventDatabase = EventDatabase(database: database);
     final ticketDatabase = TicketDatabase(database: database);
+    final notificationDatabase = NotificationDatabase(database: database);
 
     final repository = SyncScreenRepository(
         api: api,
         orderDatabase: orderDatabase,
         eventDatabase: eventDatabase,
-        ticketDatabase: ticketDatabase,);
+        ticketDatabase: ticketDatabase,
+        notificationDatabase: notificationDatabase,
+    );
 
     await repository.syncOrders();
 

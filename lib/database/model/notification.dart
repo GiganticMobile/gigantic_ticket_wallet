@@ -34,7 +34,8 @@ class Notification extends Table {
   ///
   BoolColumn get seen => boolean().withDefault(const Constant(false))();
 
-  ///
+  ///A notification might be time sensitive (such as doors open in 5 minutes)
+  ///the show at value which of the notification the user should see.
   DateTimeColumn get createdAt => dateTime()();
 
 }

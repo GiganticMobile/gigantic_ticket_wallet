@@ -13,10 +13,10 @@ import 'package:gigantic_ticket_wallet/verificationScreen/verification_screen.da
 import 'package:gigantic_ticket_wallet/viewOrderScreen/view_order_screen.dart';
 import 'package:go_router/go_router.dart';
 
-void main() {
+Future<void> main() async {
   setupDependencyInjection();
 
-  AwesomeNotifications().initialize(
+  await AwesomeNotifications().initialize(
     // set the icon to null if you want to use the default app icon
     null,
       [
@@ -36,6 +36,9 @@ void main() {
       ],
       debug: true,
   );
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetIt.I.isReady<LoginDatabaseInterface>();
 
   runApp(const MyApp());
 }
@@ -226,12 +229,12 @@ class _MyAppState extends State<MyApp> {
     AwesomeNotifications().setListeners(
         onActionReceivedMethod:
         NotificationController.onActionReceivedMethod,
-        onNotificationCreatedMethod:
+        /*onNotificationCreatedMethod:
         NotificationController.onNotificationCreatedMethod,
         onNotificationDisplayedMethod:
         NotificationController.onNotificationDisplayedMethod,
         onDismissActionReceivedMethod:
-        NotificationController.onDismissActionReceivedMethod,
+        NotificationController.onDismissActionReceivedMethod,*/
     );
 
     super.initState();

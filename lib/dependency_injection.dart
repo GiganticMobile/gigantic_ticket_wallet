@@ -133,12 +133,15 @@ void setupDependencyInjection() {
     final orderDatabase = GetIt.I.get<OrderDatabaseInterface>();
     final eventDatabase = GetIt.I.get<EventDatabaseInterface>();
     final ticketDatabase = GetIt.I.get<TicketDatabaseInterface>();
+    final notificationDatabase = GetIt.I.get<NotificationDatabaseInterface>();
 
     return SyncScreenRepository(
         api: api,
         orderDatabase: orderDatabase,
         eventDatabase: eventDatabase,
-        ticketDatabase: ticketDatabase,);
+        ticketDatabase: ticketDatabase,
+        notificationDatabase: notificationDatabase,
+    );
   });
 
   GetIt.I.registerLazySingleton<OrderScreenRepositoryInterface>(() {
