@@ -58,7 +58,7 @@ class SyncScreenRepository extends SyncScreenRepositoryInterface {
 
   Future<void> _setupNotifications(api.Order order) async {
     if (order.event.doorsOpenTime != null) {
-      await _notificationHandler.createRemindernNotification(
+      await _notificationHandler.createReminderNotification(
           order.id,
           order.event.title,
           order.event.doorsOpenTime!,);

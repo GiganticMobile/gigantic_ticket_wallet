@@ -1,13 +1,14 @@
-
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class NotificationSettings {
+/// app settings related to notifications
+class NotificationSettings implements NotificationSettingsInterface {
   static const _allNotificationsOptionKey = 'allNotificationsKey';
   static const _onlyUpdatesOptionKey = 'onlyUpdatesKey';
 
   /// get all notifications option
-  static Future<bool> getAllowedNotificationsOption() async {
+  @override
+  Future<bool> getAllowedNotificationsOption() async {
     await GetIt.I.isReady<SharedPreferences>();
 
     final prefs = GetIt.I.get<SharedPreferences>();
@@ -17,7 +18,8 @@ class NotificationSettings {
 
   // only updates references notifications like event delayed
   /// get only updates option
-  static Future<bool> getOnlyUpdatesOption() async {
+  @override
+  Future<bool> getOnlyUpdatesOption() async {
     await GetIt.I.isReady<SharedPreferences>();
 
     final prefs = GetIt.I.get<SharedPreferences>();
@@ -26,7 +28,8 @@ class NotificationSettings {
   }
 
   /// save all notification option
-  static Future<void> setAllowAllNotificationsOption({required bool isAllowed})
+  @override
+  Future<void> setAllowAllNotificationsOption({required bool isAllowed})
   async {
     await GetIt.I.isReady<SharedPreferences>();
 
@@ -35,7 +38,8 @@ class NotificationSettings {
   }
 
   /// save only updates option
-  static Future<void> setOnlyUpdatesOption({required bool isAllowed}) async {
+  @override
+  Future<void> setOnlyUpdatesOption({required bool isAllowed}) async {
     await GetIt.I.isReady<SharedPreferences>();
 
     final prefs = GetIt.I.get<SharedPreferences>();
@@ -44,14 +48,13 @@ class NotificationSettings {
 
 }
 
+///
 abstract class NotificationSettingsInterface {
   /// get all notifications option
-  static Future<bool> getAllowedNotificationsOption() async { return false; }
+  Future<bool> getAllowedNotificationsOption();
 
   /// save all notification option
-  static Future<void> setAllowAllNotificationsOption({required bool isAllowed}) async {
-
-  }
+  Future<void> setAllowAllNotificationsOption({required bool isAllowed});
 
   // only updates references notifications like event delayed
   /// get only updates option

@@ -8,6 +8,7 @@ import 'package:gigantic_ticket_wallet/database/ticket_database.dart';
 import 'package:gigantic_ticket_wallet/network/endpoints/order_end_points.dart';
 import 'package:gigantic_ticket_wallet/network/order_api.dart';
 import 'package:gigantic_ticket_wallet/notifications/notification_handler.dart';
+import 'package:gigantic_ticket_wallet/notifications/notification_settings.dart';
 import 'package:gigantic_ticket_wallet/syncScreen/sync_screen_repository.dart';
 
 void main() {
@@ -31,7 +32,9 @@ void main() {
     final ticketDatabase = TicketDatabase(database: database);
     final notificationDatabase = NotificationDatabase(database: database);
     final notificationHandler = NotificationHandler(
-        notificationDatabase: notificationDatabase,);
+        notificationDatabase: notificationDatabase,
+        notificationSettings: MockNotificationSettings(),
+    );
 
     final repository = SyncScreenRepository(
         api: api,
@@ -130,4 +133,27 @@ class MockOrderEndPoints extends OrderEndPointsInterface {
     return Response(requestOptions: RequestOptions(), data: rawResponse);
   }
   
+}
+
+class MockNotificationSettings implements NotificationSettingsInterface {
+  @override
+  Future<bool> getAllowedNotificationsOption() async {
+    return false;
+  }
+
+  @override
+  Future<bool> getOnlyUpdatesOption() async {
+    return false;
+  }
+
+  @override
+  Future<void> setAllowAllNotificationsOption({required bool isAllowed}) async {
+
+  }
+
+  @override
+  Future<void> setOnlyUpdatesOption({required bool isAllowed}) async {
+
+  }
+
 }

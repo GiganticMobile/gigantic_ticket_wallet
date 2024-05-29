@@ -14,9 +14,12 @@ class NotificationHandler {
   /// constructor
   NotificationHandler({
     required NotificationDatabaseInterface notificationDatabase,
-  }) : _notificationDatabase = notificationDatabase;
+    required NotificationSettingsInterface notificationSettings,
+  }) : _notificationDatabase = notificationDatabase,
+        _notificationSettings = notificationSettings;
 
   final NotificationDatabaseInterface _notificationDatabase;
+  final NotificationSettingsInterface _notificationSettings;
 
   static const _updatesNotificationChannel = 'updates';
   static const _generalNotificationChannel = 'general';
@@ -79,19 +82,20 @@ class NotificationHandler {
           return AlertDialog(
             title: const Text('Allow Notifications'),
             content: const Text(
-                'Get notifications on delays, event changes, reminders and event related news.'),
+                'Get notifications on delays, event changes, reminders and event related news.',),
             actions: [
               TextButton(onPressed: () {
                 _.pop();
-              }, child: const Text('Deny')),
+              }, child: const Text('Deny'),),
 
               TextButton(onPressed: () {
                 AwesomeNotifications().requestPermissionToSendNotifications()
                     .then((result) {
                   if (result) {
                     //set allow all notifications in settings
-                    NotificationSettings.setOnlyUpdatesOption(isAllowed: true);
-                    NotificationSettings.setAllowAllNotificationsOption(
+                    NotificationSettings()
+                    ..setOnlyUpdatesOption(isAllowed: true)
+                    ..setAllowAllNotificationsOption(
                       isAllowed: true,);
                   }
                 });
@@ -104,7 +108,8 @@ class NotificationHandler {
     });
   }
 
-  Future<void> createRemindernNotification(
+  ///
+  Future<void> createReminderNotification(
       String orderId,
       String orderTitle,
       DateTime oderStartTime,) async {
@@ -138,7 +143,7 @@ class NotificationHandler {
 
       await _notificationDatabase.addNotification(reminder);
 
-      final onlyUpdates = await NotificationSettings.getOnlyUpdatesOption();
+      final onlyUpdates = await _notificationSettings.getOnlyUpdatesOption();
       if (notificationsAllowed && onlyUpdates) {
         await AwesomeNotifications().createNotification(
           content: NotificationContent(
@@ -156,6 +161,7 @@ class NotificationHandler {
     }
   }
 
+  ///
   Future<void> createRatingNotification(
       String orderId,
       String orderTitle,
@@ -190,7 +196,7 @@ class NotificationHandler {
       await _notificationDatabase.addNotification(rating);
 
       final generalUpdates =
-      await NotificationSettings.getAllowedNotificationsOption();
+      await _notificationSettings.getAllowedNotificationsOption();
       if (notificationsAllowed && generalUpdates) {
         await AwesomeNotifications().createNotification(
           content: NotificationContent(

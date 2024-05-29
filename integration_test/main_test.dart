@@ -18,6 +18,7 @@ import 'package:gigantic_ticket_wallet/network/login_api.dart';
 import 'package:gigantic_ticket_wallet/network/order_api.dart';
 import 'package:gigantic_ticket_wallet/network/verification_api.dart';
 import 'package:gigantic_ticket_wallet/notifications/notification_handler.dart';
+import 'package:gigantic_ticket_wallet/notifications/notification_settings.dart';
 import 'package:gigantic_ticket_wallet/orderScreen/order_screen_repository.dart';
 import 'package:gigantic_ticket_wallet/syncScreen/sync_screen_repository.dart';
 import 'package:gigantic_ticket_wallet/utils/connection_utils.dart';
@@ -103,16 +104,21 @@ void setupTestDependencyInjection() {
   //notifications
   GetIt.I.registerLazySingleton<NotificationHandler>(() {
     final notificationDatabase = GetIt.I.get<NotificationDatabaseInterface>();
-    return NotificationHandler(notificationDatabase: notificationDatabase);
+    final notificationSettings = NotificationSettings();
+    return NotificationHandler(notificationDatabase: notificationDatabase,
+        notificationSettings: notificationSettings,);
   });
 
   //app repositories
   GetIt.I.registerLazySingletonAsync<AccountScreenRepositoryInterface>(() async {
     await GetIt.I.isReady<LoginDatabaseInterface>();
     final loginDatabase = GetIt.I.get<LoginDatabaseInterface>();
+    final notificationSettings = NotificationSettings();
 
     return AccountScreenRepository(
-      loginDatabase: loginDatabase,);
+      loginDatabase: loginDatabase,
+      notificationSettings: notificationSettings,
+    );
   });
 
   GetIt.I.registerLazySingletonAsync<LoginScreenRepositoryInterface>(() async {

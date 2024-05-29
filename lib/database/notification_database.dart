@@ -59,7 +59,9 @@ class NotificationDatabase extends NotificationDatabaseInterface {
   @override
   Future<void> setAllNotificationsAsRead() async {
     await (_database.update(_database.notification)
-      ..where((notification) => notification.seen.equals(false)))
+      ..where((notification) => notification.seen.equals(false))
+      ..where((notification) =>
+          notification.createdAt.isSmallerThanValue(DateTime.now()),))
         .write(const NotificationCompanion(seen: Value(true)));
   }
 
