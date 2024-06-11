@@ -145,7 +145,7 @@ class _OrderListItemState extends State<OrderListItem>
         margin: const EdgeInsets.all(4),
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: Colors.blue,
+          color: Theme.of(context).colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(4),),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,6 +191,8 @@ class _OrderListItemState extends State<OrderListItem>
             Row(children: [
               Expanded(child: FilledButton(
                 style: FilledButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                   ),
@@ -255,7 +257,7 @@ class _PastOrderItemState extends State<PastOrderItem>
         margin: const EdgeInsets.all(4),
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: Colors.blue,
+          color: Theme.of(context).colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(4),),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
