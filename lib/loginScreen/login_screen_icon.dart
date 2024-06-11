@@ -14,7 +14,10 @@ class LoginScreenIcon extends StatelessWidget {
       height: 100,
       width: 100,
       child: CustomPaint(
-        painter: LoginIconPainter(),
+        painter: LoginIconPainter(
+          iconColor: Theme.of(context).colorScheme.primaryContainer,
+          textColor: Theme.of(context).colorScheme.onPrimaryContainer,
+        ),
       ),
     );
   }
@@ -22,10 +25,21 @@ class LoginScreenIcon extends StatelessWidget {
 
 ///This draws the login screen icon
 class LoginIconPainter extends CustomPainter {
+  /// constructor
+  LoginIconPainter({
+    required this.iconColor,
+    required this.textColor,
+});
+
+  ///the background color of the icon
+  Color iconColor;
+  ///the color of the text on the icon
+  Color textColor;
+
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.orange
+    final backgroundPaint = Paint()
+      ..color = iconColor
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.fill
       ..strokeWidth = 5.0;
@@ -34,10 +48,10 @@ class LoginIconPainter extends CustomPainter {
 
     canvas.drawRRect(RRect.fromRectXY(Rect.fromCenter(
       center: Offset(size.width / 2, size.height / 2),
-      width: 90, height: 90,), 2, 2,), paint,);
+      width: 80, height: 80,), 2, 2,), backgroundPaint,);
 
-    const style = TextStyle(
-      color: Colors.black,
+    final style = TextStyle(
+      color: textColor,
       fontSize: 56,
       fontWeight: FontWeight.bold,);
     final paragraphStyle = ui.ParagraphStyle(

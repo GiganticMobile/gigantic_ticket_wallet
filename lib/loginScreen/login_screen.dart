@@ -186,7 +186,8 @@ class LoginButton extends StatelessWidget {
         onPressed: _onPress.call,
         style: FilledButton.styleFrom(
           fixedSize: Size(_width, 50),
-          backgroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),),
         ),
@@ -217,14 +218,15 @@ class SignupButton extends StatelessWidget {
         onPressed: _onPress.call,
         style: FilledButton.styleFrom(
           fixedSize: Size(_width, 50),
-          backgroundColor: Theme.of(context).colorScheme.onPrimary,
+          backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
-            side: BorderSide(color: Theme.of(context).colorScheme.primary),
+            side: BorderSide(
+                color: Theme.of(context).colorScheme.primaryContainer,),
             borderRadius: BorderRadius.circular(8),),
         ),
         child: Text('Sign up', style: TextStyle(
           fontWeight: FontWeight.bold,
-          color: Theme.of(context).colorScheme.primary,
+          color: Theme.of(context).colorScheme.primaryContainer,
           fontSize: 25,),),
       ),
     );
@@ -264,7 +266,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         suffixIcon: IconButton(
           icon: Icon(
             _canViewPassword ? Icons.visibility : Icons.visibility_off,
-            color: Theme.of(context).primaryColorDark,
+            color: Theme.of(context).colorScheme.primary,
           ),
           onPressed: () {
             setState(() {
@@ -333,6 +335,9 @@ class _VerificationButtonState extends State<VerificationButton> {
                  * an email address.
                  */
               },
+              style: TextButton.styleFrom(
+                foregroundColor:
+                Theme.of(context).colorScheme.primaryContainer,),
               child: const Text('Forgotten your password?',
                 style: TextStyle(fontWeight: FontWeight.w600,),),
             ),

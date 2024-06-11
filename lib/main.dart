@@ -9,6 +9,7 @@ import 'package:gigantic_ticket_wallet/notificationScreen/notification_screen.da
 import 'package:gigantic_ticket_wallet/notifications/notification_handler.dart';
 import 'package:gigantic_ticket_wallet/orderScreen/order_screen.dart';
 import 'package:gigantic_ticket_wallet/syncScreen/sync_screen.dart';
+import 'package:gigantic_ticket_wallet/themes.dart';
 import 'package:gigantic_ticket_wallet/verificationScreen/verification_screen.dart';
 import 'package:gigantic_ticket_wallet/viewOrderScreen/view_order_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -218,10 +219,10 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp.router(
         routerConfig: _router,
         title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFFA4C20)),
-          useMaterial3: true,
-        ),
+        theme: Themes.light(),
+        highContrastTheme: Themes.lightHighContrast(),
+        darkTheme: Themes.dark(),
+        highContrastDarkTheme: Themes.darkHighContrast(),
       ),
     );
   }
