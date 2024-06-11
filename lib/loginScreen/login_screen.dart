@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gigantic_ticket_wallet/error_container.dart';
 import 'package:gigantic_ticket_wallet/loginScreen/login_result.dart';
+import 'package:gigantic_ticket_wallet/loginScreen/login_screen_icon.dart';
 import 'package:gigantic_ticket_wallet/loginScreen/login_screen_notifier.dart';
 import 'package:gigantic_ticket_wallet/notifications/notification_handler.dart';
 import 'package:go_router/go_router.dart';
@@ -21,19 +22,16 @@ class LoginScreen extends StatelessWidget {
 
             OrientationBuilder(builder: (context, orientation) {
               if (MediaQuery.of(context).orientation == Orientation.portrait) {
-                return Column(children: [
+                return const Column(children: [
                   //this will be replaced by the icon
-                  Container(
-                    color: Theme.of(context).colorScheme.primary,
-                    height: 100,
-                    width: 100,),
+                  LoginScreenIcon(),
 
-                  const Text('Login to your account',
+                  Text('Login to your account',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25,),
                     textAlign: TextAlign.center,),
-                  const Text('Enter your user account details, this can be found on your order confirmation.',
+                  Text('Enter your user account details, this can be found on your order confirmation.',
                     textAlign: TextAlign.center,),
                 ],);
               } else {
