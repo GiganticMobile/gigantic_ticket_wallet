@@ -21,7 +21,11 @@ class EventScheduleView extends StatelessWidget {
           //this creates a box that hold the full schedule
           height: (55 * _schedule.length).toDouble(),
           child: CustomPaint(
-            painter: EventSchedulePainter(_schedule),
+            painter: EventSchedulePainter(
+                _schedule,
+              Theme.of(context).colorScheme.primary,
+              Theme.of(context).colorScheme.onSurface,
+            ),
           ),
         ),
       ),
@@ -32,18 +36,20 @@ class EventScheduleView extends StatelessWidget {
 ///this draws the event schedule
 class EventSchedulePainter extends CustomPainter {
   /// constructor
-  EventSchedulePainter(List<ScheduleItem> schedule) {
+  EventSchedulePainter(List<ScheduleItem> schedule, Color scheduleColor, Color textColor) {
     _schedule = schedule;
+    _textColor = textColor;
     _paint = Paint()
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
-      ..color = Colors.lightBlue
+      ..color = scheduleColor
       ..strokeWidth = 8.0;
 
   }
 
   late final List<ScheduleItem> _schedule;
   late final Paint _paint;
+  late final Color _textColor;
 
   @override
   void paint(Canvas canvas, ui.Size size) {
@@ -100,8 +106,8 @@ class EventSchedulePainter extends CustomPainter {
 
     canvas.drawPath(path, _paint);
 
-    const style = TextStyle(
-      color: Colors.black,
+    final style = TextStyle(
+      color: _textColor,
       fontSize: 16,
       fontWeight: FontWeight.bold,);
     final paragraphStyle = ui.ParagraphStyle(

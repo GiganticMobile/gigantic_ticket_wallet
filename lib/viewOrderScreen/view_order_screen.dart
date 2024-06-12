@@ -68,17 +68,17 @@ class ViewOrderScreen extends ConsumerWidget {
             TicketListView(tickets: order.valueOrNull!.tickets)
           else const SizedBox.shrink(),
 
-          const Divider(color: Colors.green,),
+          const Divider(),
 
           EventScheduleView(schedule: schedule,),
 
-          const Divider(color: Colors.green,),
+          const Divider(),
 
           EventInfo(
             eventInfo: '',
             eventImage: order.valueOrNull?.event.image ?? '',),
 
-          const Divider(color: Colors.green,),
+          const Divider(),
 
           VenueInfo(
             venueAddress: order.valueOrNull?.event.venue.address ?? '',
@@ -90,12 +90,15 @@ class ViewOrderScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(8),
             child: ListTile(
+              iconColor: Theme.of(context).colorScheme.primaryContainer,
+              textColor: Theme.of(context).colorScheme.primaryContainer,
               leading: const Icon(Icons.help_outline),
               title: const Text('Contact customer services'),
               trailing: IconButton(onPressed: () {
 
               }, icon: const Icon(Icons.arrow_forward),),
-              shape: Border.all(color: Colors.cyan),
+              shape: Border.all(
+                  color: Theme.of(context).colorScheme.primaryContainer,),
             ),
           ),
 

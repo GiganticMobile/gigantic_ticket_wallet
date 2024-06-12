@@ -64,7 +64,9 @@ class _CarouselState extends State<Carousel> {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(height: 645, padding: const EdgeInsets.all(8), color: Colors.green,
+        Container(height: 645,
+          padding: const EdgeInsets.all(8),
+          color: Theme.of(context).colorScheme.surface,
           child: PageView(
           controller: _pageController,
           children: widget._tickets.map(
@@ -121,8 +123,8 @@ class CarouselIndicators extends StatelessWidget {
             width: 20,
             decoration: BoxDecoration(
                 color: (i == _selectedIndicator) ?
-                const Color.fromRGBO(17, 173, 200, 0.984) :
-                const Color.fromRGBO(2, 64, 75, 0.98),
+                Theme.of(context).colorScheme.primary :
+                Theme.of(context).colorScheme.inversePrimary,
                 shape: BoxShape.circle,
             ),
             child: GestureDetector(
@@ -148,7 +150,7 @@ class TicketWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primaryContainer,
+        color: Theme.of(context).colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(4),),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -169,7 +171,7 @@ class TicketWidget extends StatelessWidget {
           //face value
           Text(_ticketInfo.value),
 
-          const Divider(color: Colors.green,),
+          const Divider(),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -208,7 +210,7 @@ class TicketWidget extends StatelessWidget {
                 ],),
             ],),
 
-          const Divider(color: Colors.green,),
+          const Divider(),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -291,7 +293,7 @@ class TicketWidget extends StatelessWidget {
                 ],),
             ],),
 
-          const Divider(color: Colors.green,),
+          const Divider(),
 
           const ListTile(
             leading: Icon(Icons.more_horiz),
